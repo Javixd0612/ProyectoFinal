@@ -1,0 +1,78 @@
+/* Gamer Style */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle at top, #0f0f0f, #000000);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    text-align: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.logo {
+    font-size: 2rem;
+    color: #00ffcc;
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+}
+
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+.btn {
+    background: transparent;
+    border: 2px solid #00ffcc;
+    padding: 10px 20px;
+    color: #00ffcc;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+}
+
+.btn:hover {
+    background: #00ffcc;
+    color: #000;
+}
+
+.neon-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: #ff0099;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 15px;
+    text-shadow: 0 0 10px #ff0099, 0 0 20px #ff0099;
+    box-shadow: 0 0 15px #ff0099;
+    transition: 0.3s;
+}
+
+.neon-btn:hover {
+    background: #fff;
+    color: #ff0099;
+    text-shadow: none;
+}
