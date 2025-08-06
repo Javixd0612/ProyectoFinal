@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <header>
-            <h1 class="logo">Epic G4mes</h1>
+            <h1 class="logo">TecnoJuegos</h1>
             <nav>
                 <a href="{{ route('login') }}" class="btn">Log in</a>
                 <a href="{{ route('register') }}" class="btn">Register</a>
@@ -21,7 +21,7 @@
 
         <main>
             <div class="card">
-                <h2>¡Bienvenido a Epic G4mes!</h2>
+                <h2>¡Bienvenido a TecnoJuegos!</h2>
                 <p>Explora la nueva forma de reservar consolas y jugar como un verdadero gamer.</p>
                 <a href="{{ route('register') }}" class="btn neon-btn">Comienza ahora</a>
             </div>

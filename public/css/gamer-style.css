@@ -11,68 +11,129 @@ body {
     font-family: 'Orbitron', sans-serif;
     background: radial-gradient(circle at top, #0f0f0f, #000000);
     color: #fff;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    padding: 2rem;
 }
 
 .container {
-    width: 90%;
-    max-width: 1200px;
-    text-align: center;
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
+/* HEADER */
 header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 50px;
+    border-bottom: 2px solid #00ffcc;
+    padding-bottom: 1rem;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
 .logo {
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: #00ffcc;
     text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
 }
 
-nav a {
-    margin-left: 20px;
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-}
-
-.btn {
-    background: transparent;
-    border: 2px solid #00ffcc;
-    padding: 10px 20px;
+/* NAVIGATION BUTTONS */
+nav .btn {
+    margin: 0.3rem;
+    padding: 0.6rem 1.2rem;
+    background-color: transparent;
     color: #00ffcc;
+    border: 2px solid #00ffcc;
     border-radius: 10px;
+    text-decoration: none;
+    text-transform: uppercase;
     transition: 0.3s ease-in-out;
+    box-shadow: 0 0 5px #00ffcc;
 }
 
-.btn:hover {
-    background: #00ffcc;
+nav .btn:hover {
+    background-color: #00ffcc;
     color: #000;
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
 }
 
+/* MAIN */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: #111;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 0 15px #00ffcc;
+    width: 100%;
+    max-width: 600px;
+}
+
+.card h2 {
+    font-size: 2rem;
+    color: #00ffcc;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+}
+
+.card p {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 2rem;
+}
+
+/* NEON BUTTON */
 .neon-btn {
     display: inline-block;
-    margin-top: 20px;
     background: #ff0099;
     color: #fff;
+    padding: 0.8rem 1.5rem;
     border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    border-radius: 15px;
-    text-shadow: 0 0 10px #ff0099, 0 0 20px #ff0099;
+    font-size: 1rem;
+    border-radius: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    text-shadow: 0 0 10px #ff0099;
     box-shadow: 0 0 15px #ff0099;
-    transition: 0.3s;
+    transition: 0.3s ease-in-out;
 }
 
 .neon-btn:hover {
     background: #fff;
     color: #ff0099;
     text-shadow: none;
+    box-shadow: none;
+}
+
+/* RESPONSIVE TEXT */
+@media (max-width: 480px) {
+    .logo {
+        font-size: 2rem;
+    }
+
+    .card h2 {
+        font-size: 1.5rem;
+    }
+
+    .card p {
+        font-size: 1rem;
+    }
 }

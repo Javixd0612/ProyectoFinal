@@ -1,47 +1,53 @@
-<x-guest-layout>
-    <div class="gamer-bg min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-        <div>
-            <img src="{{ asset('images/gamer-logo.png') }}" alt="Logo" class="w-20 h-20">
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Gamer Portal</title>
+    <link href="{{ asset('css/gamer.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2 class="login-title">TenoJuegos🎮</h2>
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-gamer-dark shadow-md overflow-hidden sm:rounded-lg">
+            {{-- Mensaje de error si hay problemas con las credenciales --}}
+            @if ($errors->any())
+                <div class="alert-error">
+                    <strong>⚠️ Credenciales incorrectas:</strong> verifica tu email y contraseña.
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <!-- Email -->
-                <div>
-                    <x-input-label for="email" :value="__('Email')" class="gamer-label" />
-                    <x-text-input id="email" class="gamer-input mt-1 block w-full" type="email" name="email" :value="old('email')" required autofocus />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" name="email" required autofocus>
                 </div>
 
-                <!-- Password -->
-                <div class="mt-4">
-                    <x-input-label for="password" :value="__('Password')" class="gamer-label" />
-                    <x-text-input id="password" class="gamer-input mt-1 block w-full" type="password" name="password" required autocomplete="current-password" />
-                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" required>
                 </div>
 
-                <!-- Remember Me -->
-                <div class="block mt-4">
-                    <label for="remember_me" class="inline-flex items-center">
-                        <input id="remember_me" type="checkbox" class="gamer-checkbox" name="remember">
-                        <span class="ml-2 gamer-label text-sm">{{ __('Remember me') }}</span>
+                <div class="form-remember">
+                    <label>
+                        <input type="checkbox" name="remember"> Recordarme
                     </label>
                 </div>
 
-                <div class="flex items-center justify-end mt-4">
+                <div class="form-actions">
+                    <button type="submit" class="neon-btn"> Iniciar Sesión</button>
                     @if (Route::has('password.request'))
-                        <a class="underline gamer-link text-sm" href="{{ route('password.request') }}">
-                            {{ __('Forgot your password?') }}
+                        <a class="forgot-link" href="{{ route('password.request') }}">
+                            ¿Olvidaste tu contraseña?
                         </a>
                     @endif
-
-                    <x-primary-button class="ml-4 gamer-button">
-                        {{ __('Log in') }}
-                    </x-primary-button>
                 </div>
             </form>
         </div>
     </div>
-</x-guest-layout>
+</body>
+</html>
