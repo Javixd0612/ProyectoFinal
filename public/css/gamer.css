@@ -1,0 +1,88 @@
+/* FUENTE GAMER */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+    color: #00ffcc;
+}
+
+/* CENTRAR FORMULARIO */
+.min-h-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CONTENEDOR DEL FORMULARIO */
+.bg-white {
+    background: #111111;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #00ffcc55;
+    border: 1px solid #00ffcc33;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* INPUTS */
+input[type="email"],
+input[type="password"] {
+    background-color: #1e1e1e;
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+    border-radius: 6px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    box-shadow: 0 0 10px #00ffcc;
+}
+
+/* LABELS */
+label {
+    color: #00ffaa;
+    font-size: 14px;
+}
+
+/* CHECKBOX */
+input[type="checkbox"] {
+    accent-color: #00ffaa;
+    margin-right: 8px;
+}
+
+/* BOTÓN LOGIN */
+button {
+    background: #00ffaa;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: #00ffcc;
+}
+
+/* ENLACE OLVIDASTE CONTRASEÑA */
+a {
+    color: #00ffaa;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
