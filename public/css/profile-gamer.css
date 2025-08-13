@@ -1,0 +1,392 @@
+/* profile-gamer.css (mejorado y con overrides para Jetstream) */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+:root{
+  --neon-cyan: #00ffcc;
+  --neon-pink: #ff0099;
+  --panel: #111;
+  --panel-2: #0f0f0f;
+  --input-bg: #222;
+  --muted: #cfcfcf;
+}
+/* ===== Forzar fondo NEGRO detrás de cada sección del perfil ===== */
+:root{
+  --profile-bg-outer: #000000;   /* fondo detrás de cada sección (negro) */
+  --profile-card-inner: #0f0f0f; /* color del cuadro interior (si quieres contraste) */
+  --neon-cyan: #00ffcc;
+}
+
+/* Fondo negro para contenedores de perfil y partials */
+.profile-page,
+.profile-wrapper,
+.profile-container,
+.profile-area,
+.profile-card,
+.profile-section,
+.profile-section-wrap,
+.profile-block,
+.profile-partial,
+.profile-form,
+.profile-form > * {
+  background: var(--profile-bg-outer) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Si quieres mantener un cuadro interior con contraste (puedes comentar si no) */
+.profile-card .card,
+.profile-card .card-body,
+.profile-card-inner,
+.profile-card > .p-6,
+.profile-card .panel {
+  background: var(--profile-card-inner) !important;
+  border: 1px solid rgba(0,255,204,0.06) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.7) !important;
+  color: #fff !important;
+}
+
+/* Evitar que Jetstream/Tailwind obligue fondos blancos */
+.profile-card .bg-white,
+.profile-card .rounded-md,
+.profile-card .ring-1,
+.profile-card .ring-black,
+.profile-card .ring-opacity-5,
+.profile-card .shadow-lg,
+.profile-card [class*="bg-"]{
+  background: var(--profile-card-inner) !important;
+  box-shadow: none !important;
+  border-color: rgba(0,255,204,0.06) !important;
+  color: #fff !important;
+}
+
+/* Inputs/botones dentro del perfil: mantener contraste y fondo oscuro */
+.profile-card input,
+.profile-card select,
+.profile-card textarea,
+.profile-card .form-group,
+.profile-card .form-actions,
+.profile-card .btn,
+.profile-card button,
+.profile-card a {
+  background: transparent !important;
+  color: #fff !important;
+  border-color: rgba(0,255,204,0.12) !important;
+}
+
+/* Dropdowns o overlays dentro del perfil */
+.profile-card .dropdown-gamer,
+.profile-card .dropdown-gamer * {
+  background: var(--profile-card-inner) !important;
+  color: var(--neon-cyan) !important;
+  border-color: rgba(0,255,204,0.06) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important;
+}
+
+/* Mobile: forzar también negro */
+@media (max-width: 639px){
+  .profile-page, .profile-wrapper, .profile-card, .mobile-profile {
+    background: var(--profile-bg-outer) !important;
+  }
+}
+
+/* Asegurar que los textos de enlaces/signals sigan legibles */
+.profile-card a,
+.profile-card .link,
+.profile-card .label {
+  color: var(--neon-cyan) !important;
+}
+
+/* Si existe algún inline style específico que ponga background-color: white */
+.profile-card [style*="background"],
+.profile-card [style*="background-color"] {
+  background-color: var(--profile-card-inner) !important;
+  background: var(--profile-card-inner) !important;
+}
+
+
+/* Reset / base */
+*{ box-sizing: border-box; margin:0; padding:0; }
+html,body,#app { height:100%; }
+body{
+  font-family: 'Orbitron', sans-serif;
+  background-color: #000;
+  color: #fff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* HEADER SLOT (evitar franja blanca generada por layout) */
+header.bg-white,
+header.bg-white.shadow,
+header[role="banner"] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Título perfil en slot */
+.profile-title,
+h2.profile-title {
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-shadow: 0 0 8px var(--neon-cyan);
+}
+
+/* ---- Tarjetas y bg whites (FORZADO) ---- */
+/* Queremos que cualquier .bg-white dentro del profile sea oscuro */
+.profile-card,
+.profile-card .card,
+.profile-card .bg-white,
+.bg-white.profile-area,
+.profile-area .bg-white {
+  background-color: var(--panel) !important;
+  border: 1px solid rgba(0,255,204,0.12) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 15px rgba(0,255,204,0.06) !important;
+  padding: 20px;
+  color: #fff !important;
+}
+
+/* También forzamos para cualquier elemento hijo que Jetstream pudiera marcar */
+.profile-card .rounded-md,
+.profile-card .ring-1,
+.profile-card .ring-black,
+.profile-card .ring-opacity-5,
+.profile-card .shadow-lg,
+.profile-card .bg-gray-100 {
+  background: var(--panel) !important;
+  box-shadow: none !important;
+  border-color: rgba(0,255,204,0.06) !important;
+  color: #fff !important;
+}
+
+/* Si algún partial trae un contenedor .bg-white fuera de .profile-card */
+.profile-page, .profile-wrapper, .profile-container, .profile-area {
+  background: transparent !important;
+}
+
+/* Títulos / labels / textos */
+h2, .profile-section-title {
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-shadow: 0 0 8px var(--neon-cyan);
+}
+.profile-section-text { color: #ccc; }
+label { color: var(--neon-cyan); font-weight:700; }
+
+/* Inputs / selects / textarea */
+input, select, textarea {
+  background-color: var(--input-bg) !important;
+  border: 1px solid rgba(0,255,204,0.12) !important;
+  color: #fff !important;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
+  box-shadow: inset 0 0 6px rgba(0,255,204,0.03);
+}
+input:focus, select:focus, textarea:focus {
+  outline: none !important;
+  border-color: #00bfff !important;
+  box-shadow: 0 0 10px #00bfff !important;
+  background: #272727 !important;
+}
+
+/* Botones (guardar/actualizar) - serio pero gamer */
+.neon-btn.save-btn,
+.neon-btn.update-btn {
+  background: linear-gradient(90deg, rgba(0,255,204,0.12), rgba(0,119,255,0.08));
+  color: #000;
+  font-weight: 800;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 2px solid rgba(0,255,204,0.18);
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s;
+  box-shadow: 0 6px 18px rgba(0,255,204,0.03), inset 0 -2px 6px rgba(0,0,0,0.25);
+}
+.neon-btn.save-btn:hover,
+.neon-btn.update-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,255,204,0.06);
+}
+
+/* Danger / delete */
+.danger-btn, .btn-delete {
+  background: linear-gradient(90deg, #ff4d4d, #cc0000);
+  color: #fff; font-weight:700;
+  padding:10px 20px; border-radius:8px; border:none; cursor:pointer;
+}
+.danger-btn:hover, .btn-delete:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 24px rgba(255,77,77,0.14);
+}
+
+/* Cancel */
+.cancel-btn {
+  background: linear-gradient(90deg, #444, #222);
+  color:#fff; font-weight:700; padding:10px 20px; border-radius:8px;
+}
+.cancel-btn:hover { transform: scale(1.03); }
+
+/* Mensajes */
+.success-msg { color: #00ff99; font-weight:700; }
+.alert-error { color: #ff4444; font-size:0.95rem; }
+
+/* Formularios */
+.profile-form { display:flex; flex-direction:column; gap:15px; }
+.form-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+
+/* Forzar enlaces y botones dentro del profile a estilo neon si Jetstream aplica bg-white */
+.profile-card a,
+.profile-card button,
+.profile-card .link,
+.profile-card .btn,
+.profile-card .dropdown-item {
+  color: var(--neon-cyan) !important;
+  background: transparent !important;
+}
+
+/* Mobile / responsive */
+@media (max-width: 640px) {
+  .profile-card { padding: 14px !important; }
+  .profile-title { font-size: 1rem !important; }
+}
+
+/* Extras: si queda alguna capa con inline style o clase bg-white */
+
+.profile-card [class*="bg-"] {
+  background: var(--panel) !important;
+}
+
+.profile-card [class*="ring-"] {
+  box-shadow: none !important;
+}
+
+/* Si aún hubiera un dropdown generado por Jetstream dentro de profile (rare) */
+.profile-card .dropdown-gamer,
+.profile-card .dropdown-gamer * {
+  background: var(--panel) !important;
+  color: var(--neon-cyan) !important;
+  border-color: rgba(0,255,204,0.06) !important;
+}
+
+/* Accessibility / selection */
+::selection { background: rgba(0,255,204,0.08); color:#fff; }
+/* profile-gamer.css (mejorado y con overrides para Jetstream) */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+:root{
+  --neon-cyan: #00ffcc;
+  --neon-pink: #ff0099;
+  --panel: #111;
+  --panel-2: #0f0f0f;
+  --input-bg: #222;
+  --muted: #cfcfcf;
+  --profile-bg-outer: #000000;   /* fondo detrás de cada sección (negro) */
+  --profile-card-inner: #0f0f0f; /* cuadro interior */
+}
+
+/* ===== Fondo negro para TODA la página de perfil ===== */
+.profile-page,
+.profile-wrapper,
+.profile-container,
+.profile-area,
+.profile-card,
+.profile-section,
+.profile-section-wrap,
+.profile-block,
+.profile-partial,
+.profile-form,
+.profile-form > * {
+  background: var(--profile-bg-outer) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Cuadro interior con contraste */
+.profile-card .card,
+.profile-card .card-body,
+.profile-card-inner,
+.profile-card > .p-6,
+.profile-card .panel {
+  background: var(--profile-card-inner) !important;
+  border: 1px solid rgba(0,255,204,0.06) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.7) !important;
+  color: #fff !important;
+}
+
+/* Forzar .bg-white a oscuro dentro y fuera del perfil */
+.bg-white,
+.profile-card .bg-white,
+.profile-area .bg-white,
+.bg-gray-100 {
+  background: var(--profile-card-inner) !important;
+  border-color: rgba(0,255,204,0.06) !important;
+  color: #fff !important;
+}
+
+/* Evitar que Jetstream/Tailwind obligue fondos blancos */
+.profile-card .rounded-md,
+.profile-card .ring-1,
+.profile-card .ring-black,
+.profile-card .ring-opacity-5,
+.profile-card .shadow-lg,
+.profile-card [class*="bg-"] {
+  background: var(--profile-card-inner) !important;
+  box-shadow: none !important;
+  border-color: rgba(0,255,204,0.06) !important;
+  color: #fff !important;
+}
+
+/* Inputs/botones */
+.profile-card input,
+.profile-card select,
+.profile-card textarea,
+.profile-card .form-group,
+.profile-card .form-actions,
+.profile-card .btn,
+.profile-card button,
+.profile-card a {
+  background: transparent !important;
+  color: #fff !important;
+  border-color: rgba(0,255,204,0.12) !important;
+}
+
+/* Dropdowns */
+.profile-card .dropdown-gamer,
+.profile-card .dropdown-gamer * {
+  background: var(--profile-card-inner) !important;
+  color: var(--neon-cyan) !important;
+  border-color: rgba(0,255,204,0.06) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important;
+}
+
+/* Mobile */
+@media (max-width: 639px){
+  .profile-page,
+  .profile-wrapper,
+  .profile-card,
+  .mobile-profile {
+    background: var(--profile-bg-outer) !important;
+  }
+}
+
+/* Enlaces y labels */
+.profile-card a,
+.profile-card .link,
+.profile-card .label {
+  color: var(--neon-cyan) !important;
+}
+
+/* Inline style con background blanco */
+[style*="background-color: white"],
+[style*="background: white"] {
+  background: var(--profile-card-inner) !important;
+}
+
