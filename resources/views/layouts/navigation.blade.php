@@ -8,7 +8,9 @@
             <div class="flex items-center gap-6">
                 <ul class="gamer-menu" role="menubar">
                     <li role="none"><a role="menuitem" href="{{ route('dashboard') }}" class="gamer-link">Inicio</a></li>
-                    <li role="none"><a role="menuitem" href="#" class="gamer-link">Reservas</a></li>
+<x-nav-link :href="route('reserva')" :active="request()->routeIs('reserva')">
+    {{ __('Reserva') }}
+</x-nav-link>
                     <li role="none"><a role="menuitem" href="#" class="gamer-link">Consolas</a></li>
                     <li role="none"><a role="menuitem" href="#" class="gamer-link">Juegos</a></li>
                 </ul>
