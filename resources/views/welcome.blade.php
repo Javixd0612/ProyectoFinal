@@ -14,8 +14,8 @@
         <header>
             <h1 class="logo">TecnoJuegos</h1>
             <nav>
-                <a href="{{ route('login') }}" class="btn">Log in</a>
-                <a href="{{ route('register') }}" class="btn">Register</a>
+                <a href="{{ route('login') }}" class="btn">Inicia Sesion</a>
+                <a href="{{ route('register') }}" class="btn">Registrate</a>
             </nav>
         </header>
 

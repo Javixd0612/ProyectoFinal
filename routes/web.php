@@ -65,3 +65,17 @@ Route::get('/api/reservas/events', [ReservaApiController::class,'events'])->name
 Route::get('/reservas/simulate/{id}', [App\Http\Controllers\ReservaController::class, 'simulatePayment'])->name('reservas.simulate');
 Route::post('/reservas/simulate/{id}/confirm', [App\Http\Controllers\ReservaController::class, 'simulateConfirm'])->name('reservas.simulate.confirm');
 
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+
+Route::middleware('guest')->group(function() {
+    // Mostrar formulario para ingresar correo
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+        ->name('password.request');
+
+    // Enviar correo con enlace de restablecimiento
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+});
+
+
+
