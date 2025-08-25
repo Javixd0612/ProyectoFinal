@@ -33,7 +33,13 @@
             </p>
 
             @if (session('status'))
-                <div class="alert-error">{{ session('status') }}</div>
+                <div class="alert-error">
+                    @if(session('status') === 'We have emailed your password reset link.')
+                        ¡Hemos enviado a tu correo el enlace para restablecer tu contraseña!
+                    @else
+                        {{ session('status') }}
+                    @endif
+                </div>
             @endif
 
             <form method="POST" action="{{ route('password.email') }}">
