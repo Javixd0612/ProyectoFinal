@@ -7,9 +7,7 @@
             <div class="flex items-center gap-6">
                 <ul class="gamer-menu" role="menubar">
                     <li role="none"><a role="menuitem" href="{{ route('dashboard') }}" class="gamer-link">Inicio</a></li>
-                    <li role="none"><a role="menuitem" href="{{ route('reservas.create') }}" class="gamer-link">Reservar</a></li>
-                    <li role="none"><a role="menuitem" href="{{ route('reservas.mis') }}" class="gamer-link">Mis Reservas</a></li>
-                    <li role="none"><a role="menuitem" href="{{ route('reservas.index') }}" class="gamer-link">Ver Reservas</a></li>
+
                 </ul>
             </div>
 
@@ -53,9 +51,7 @@
         <div class="mobile-inner px-4 pb-4 pt-2">
             <ul class="gamer-menu-mobile flex flex-col gap-2">
                 <li><a href="{{ route('dashboard') }}" class="gamer-link-mobile">Inicio</a></li>
-                <li><a href="{{ route('reservas.create') }}" class="gamer-link-mobile">Reservar</a></li>
-                <li><a href="{{ route('reservas.mis') }}" class="gamer-link-mobile">Mis Reservas</a></li>
-                <li><a href="{{ route('reservas.index') }}" class="gamer-link-mobile">Ver Reservas</a></li>
+
             </ul>
 
             <div class="mobile-profile mt-4 border-t border-[#00ffcc33] pt-3">

@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    protected static function booted()
+{
+    static::creating(function ($user) {
+        if (!$user->role) {
+            $user->role = 'user';
+        }
+    });
+}
+
 }
