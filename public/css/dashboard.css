@@ -208,3 +208,22 @@ input:focus, textarea:focus, select:focus { outline:none; box-shadow: 0 0 6px rg
 .admin-page a:hover {
   color: #fff;
 }
+
+/* ======== PROFILE PAGE (USUARIO NORMAL - FONDO BLANCO) ======== */
+.profile-page {
+  background: #fff !important;  /* fondo blanco */
+  color: #000;                  /* texto negro */
+  min-height: 100vh;
+}
+
+/* Mantener las tarjetas negras en el perfil */
+.profile-page .dashboard-card {
+  background: linear-gradient(180deg, var(--panel-inner), #0b0b0b);
+  color: #fff;
+}
+.profile-page input,
+.profile-page select,
+.profile-page textarea {
+  background: #1e1e1e;
+  color: #fff;
+}

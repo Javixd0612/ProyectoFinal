@@ -1,5 +1,10 @@
 <x-app-layout>
-    <main class="{{ Auth::user()->hasRole('admin') ? 'admin-page' : 'page-bg' }}">
+    <main class="
+        {{ request()->is('profile') 
+            ? 'profile-page' 
+            : (Auth::user()->hasRole('admin') ? 'admin-page' : 'page-bg') 
+        }}
+    ">
         <div class="py-12 page-wrapper">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 content-area">
                 <div class="{{ Auth::user()->hasRole('admin') ? 'admin-card' : 'dashboard-card' }}">

@@ -123,3 +123,21 @@ body{
   border-radius: 8px;
   color: var(--neon-cyan);
 }
+
+/* ======== PROFILE PAGE (USUARIO NORMAL - FONDO BLANCO) ======== */
+.profile-page {
+  background: #fff !important;  /* fondo blanco */
+  color: #000;
+  min-height: 100vh;
+}
+
+.profile-page .dashboard-card {
+  background: linear-gradient(180deg, var(--panel-inner), #0b0b0b);
+  color: #fff;
+}
+.profile-page input,
+.profile-page select,
+.profile-page textarea {
+  background: #1e1e1e;
+  color: #fff;
+}
