@@ -28,11 +28,6 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 
 Route::middleware('guest')->group(function() {
@@ -46,4 +41,12 @@ Route::middleware('guest')->group(function() {
 });
 
 
-
+// ==========================
+// RUTAS SOLO PARA ADMIN
+// ==========================
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/', fn() => view('admin.dashboard'))->name('admin.dashboard');
+    Route::get('/reservas', fn() => view('admin.reservas'))->name('admin.reservas');
+    Route::get('/usuarios', fn() => view('admin.usuarios'))->name('admin.usuarios');
+    Route::get('/configuraciones', fn() => view('admin.configuraciones'))->name('admin.configuraciones');
+});
