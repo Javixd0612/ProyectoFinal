@@ -1,19 +1,74 @@
 <x-app-layout>
-    <div class="min-h-screen flex items-center justify-center py-12 px-4">
-        <div class="max-w-3xl w-full bg-gradient-to-br from-[#0b0b0b] to-[#111111] rounded-2xl p-10 shadow-2xl border border-cyan-700">
-            <h1 class="text-4xl font-bold text-cyan-300 text-center mb-4">¿Quiénes Somos?</h1>
-            <p class="text-lg text-gray-300 leading-relaxed text-center mb-6">
-                El aplicativo web <strong>Tecno Juegos</strong> está diseñado para mejorar la administración 
-                de consolas y reservas en salas de videojuegos, eliminando procesos manuales que generan errores 
-                y desorganización. Los usuarios consultan disponibilidad, horarios y precios en tiempo real, 
-                mientras que los administradores controlan las operaciones diarias de manera más eficiente.
-            </p>
+    <link rel="stylesheet" href="{{ asset('css/quienes-somos.css') }}">
 
-            <div class="mt-6 flex justify-center gap-6">
-                <a href="https://facebook.com" target="_blank" class="px-4 py-2 rounded-lg border border-blue-600 hover:bg-blue-600 transition">Facebook</a>
-                <a href="https://instagram.com" target="_blank" class="px-4 py-2 rounded-lg border border-pink-500 hover:bg-pink-500 transition">Instagram</a>
-                <a href="https://twitter.com" target="_blank" class="px-4 py-2 rounded-lg border border-sky-400 hover:bg-sky-400 transition">X (Twitter)</a>
+    <!-- Video de fondo -->
+    <video autoplay muted loop playsinline class="video-fondo">
+        <source src="{{ asset('videos/fondo.mp4') }}" type="video/mp4">
+        Tu navegador no soporta video HTML5.
+    </video>
+
+    <!-- Overlay con degradado futurista -->
+    <div class="overlay"></div>
+
+    <div class="contenedor">
+        <!-- Sección Quiénes Somos -->
+        <section class="card fade-in">
+            <h1>¿QUIÉNES SOMOS?</h1>
+            <p>
+                En <strong>Tecno Juegos</strong> desarrollamos soluciones digitales para la administración 
+                de consolas y reservas en salas de videojuegos. Nuestro objetivo es eliminar la desorganización 
+                de procesos manuales y ofrecer una experiencia fluida tanto a jugadores como a administradores.
+            </p>
+        </section>
+
+        <!-- Misión & Visión -->
+        <div class="grid-2">
+            <div class="card slide-up">
+                <h2>Misión</h2>
+                <p>
+                    Simplificar la gestión gamer con una plataforma intuitiva, segura y accesible, 
+                    potenciando la experiencia de entretenimiento digital.
+                </p>
             </div>
+            <div class="card slide-up">
+                <h2>Visión</h2>
+                <p>
+                    Ser referentes en Latinoamérica en el sector gamer, 
+                    innovando en la forma de reservar, administrar y disfrutar experiencias de videojuegos.
+                </p>
+            </div>
+        </div>
+
+        <!-- Valores -->
+        <section class="card fade-in">
+            <h2>Valores</h2>
+            <div class="tags">
+                <span>Innovación</span>
+                <span>Confianza</span>
+                <span>Pasión por la tecnología</span>
+                <span>Eficiencia</span>
+            </div>
+        </section>
+
+        <!-- Beneficios -->
+        <section class="card slide-up">
+            <h2>Beneficios</h2>
+            <div class="beneficios">
+                <div class="beneficio">Reservas rápidas y seguras</div>
+                <div class="beneficio">Disponibilidad en tiempo real</div>
+                <div class="beneficio">Gestión simplificada</div>
+                <div class="beneficio">Optimización de la experiencia gamer</div>
+            </div>
+        </section>
+
+        <!-- CTA y redes -->
+        <div class="cta fade-in">
+            <a href="/reserva" class="btn-cta">Reserva tu consola ahora</a>
+        </div>
+        <div class="redes fade-in">
+            <a href="https://facebook.com" target="_blank" class="btn-redes">Facebook</a>
+            <a href="https://instagram.com" target="_blank" class="btn-redes">Instagram</a>
+            <a href="https://twitter.com" target="_blank" class="btn-redes">X (Twitter)</a>
         </div>
     </div>
 </x-app-layout>

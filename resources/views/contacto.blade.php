@@ -1,39 +1,45 @@
 <x-app-layout>
-    <div class="container mx-auto max-w-2xl mt-10 bg-[#111] p-8 rounded-2xl shadow-lg border border-cyan-500">
-        <h1 class="text-3xl font-bold text-cyan-400 text-center mb-6">Contáctanos</h1>
+    <link rel="stylesheet" href="{{ asset('css/contacto.css') }}">
+    <!-- Video de fondo -->
+    <video autoplay muted loop class="video-fondo">
+        <source src="{{ asset('videos/fondo.mp4') }}" type="video/mp4">
+        Tu navegador no soporta video HTML5.
+    </video>
+    <div class="overlay"></div>
 
-        <p class="text-gray-300 text-center mb-6">
+    <div class="container-contacto">
+        <h1 class="titulo">Contáctanos</h1>
+
+        <p class="descripcion">
             ¿Tienes dudas o quieres más información sobre <strong>Tecno Juegos</strong>?  
             Escríbenos y te responderemos lo más pronto posible.
         </p>
 
-        <form action="#" method="POST" class="space-y-4">
+        <form action="#" method="POST" class="formulario">
             @csrf
             <div>
-                <label for="nombre" class="block text-cyan-300">Nombre</label>
-                <input type="text" id="nombre" name="nombre"
-                       class="w-full px-4 py-2 rounded-lg bg-[#1e1e1e] text-white border border-cyan-500 focus:outline-none focus:ring focus:ring-cyan-400">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre">
             </div>
 
             <div>
-                <label for="email" class="block text-cyan-300">Correo</label>
-                <input type="email" id="email" name="email"
-                       class="w-full px-4 py-2 rounded-lg bg-[#1e1e1e] text-white border border-cyan-500 focus:outline-none focus:ring focus:ring-cyan-400">
+                <label for="email">Correo</label>
+                <input type="email" id="email" name="email">
             </div>
 
             <div>
-                <label for="mensaje" class="block text-cyan-300">Mensaje</label>
-                <textarea id="mensaje" name="mensaje" rows="4"
-                          class="w-full px-4 py-2 rounded-lg bg-[#1e1e1e] text-white border border-cyan-500 focus:outline-none focus:ring focus:ring-cyan-400"></textarea>
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" name="mensaje" rows="4"></textarea>
             </div>
 
-            <button type="submit" class="w-full neon-btn">Enviar Mensaje</button>
+            <button type="submit" class="btn-enviar">Enviar Mensaje</button>
         </form>
 
-        <div class="flex justify-center gap-6 mt-8">
-            <a href="https://facebook.com" target="_blank" class="text-blue-500 hover:text-blue-300">Facebook</a>
-            <a href="https://instagram.com" target="_blank" class="text-pink-500 hover:text-pink-300">Instagram</a>
-            <a href="https://twitter.com" target="_blank" class="text-sky-400 hover:text-sky-200">X (Twitter)</a>
+        <!-- Redes sociales -->
+        <div class="redes">
+            <a href="https://facebook.com" target="_blank" class="btn-redes fb">Facebook</a>
+            <a href="https://instagram.com" target="_blank" class="btn-redes ig">Instagram</a>
+            <a href="https://twitter.com" target="_blank" class="btn-redes tw">X (Twitter)</a>
         </div>
     </div>
 </x-app-layout>
