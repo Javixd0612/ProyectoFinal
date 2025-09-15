@@ -227,3 +227,45 @@ input:focus, textarea:focus, select:focus { outline:none; box-shadow: 0 0 6px rg
   background: #1e1e1e;
   color: #fff;
 }
+
+/* Inputs oscuros gamer */
+input[type="date"],
+input[type="time"],
+select {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #00ffcc !important;
+    border-radius: 8px;
+    padding: 6px 10px;
+}
+
+/* Íconos calendario y reloj visibles */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(180deg);
+    cursor: pointer;
+}
+
+/* Inputs oscuros gamer */
+input[type="date"],
+input[type="time"],
+select {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #00ffcc !important;
+    border-radius: 8px;
+    padding: 6px 10px;
+}
+
+/* Indicadores (calendario/reloj) visibles */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(180deg);
+    cursor: pointer;
+}
+
+/* readonly visual */
+input[readonly] {
+    opacity: 0.95;
+    background-color: #141414 !important;
+}

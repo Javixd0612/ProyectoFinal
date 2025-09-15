@@ -30,12 +30,11 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="
-                {{ Auth::user()->hasRole('admin') 
-                    ? 'admin-page' 
-                    : (request()->is('profile') ? 'profile-page' : 'page-bg') 
-                }}
-            ">
+            @php
+                $isAdmin = auth()->check() && auth()->user()->isAdmin();
+            @endphp
+
+            <main class="{{ $isAdmin ? 'admin-page' : (request()->is('profile') ? 'profile-page' : 'page-bg') }}">
                 {{ $slot }}
             </main>
         </div>

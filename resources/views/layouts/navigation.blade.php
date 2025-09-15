@@ -8,30 +8,42 @@
                 <ul class="gamer-menu" role="menubar">
                     <li role="none"><a role="menuitem" href="{{ route('dashboard') }}" class="gamer-link">Inicio</a></li>
 
+                    @auth
+                        @if(! Auth::user()->isAdmin())
+                            <li role="none"><a role="menuitem" href="{{ route('quienes-somos') }}" class="gamer-link">Quiénes Somos</a></li>
+                            <li role="none"><a role="menuitem" href="{{ route('contacto') }}" class="gamer-link">Contáctanos</a></li>
+                            <li role="none"><a role="menuitem" href="{{ route('reserva.index') }}" class="gamer-link">Reserva</a></li>
+                        @else
+                            {{-- admin únicamente --}}
+                            <li role="none"><a role="menuitem" href="{{ route('admin.reservas') }}" class="gamer-link text-pink-400">Gestionar Reservas</a></li>
+                        @endif
+                    @endauth
                 </ul>
             </div>
 
             <!-- RIGHT: Perfil -->
             <div class="profile-area flex items-center gap-3">
-                <div class="relative" x-data="{ profileOpen: false }" @click.outside="profileOpen = false">
-                    <button @click="profileOpen = !profileOpen" class="gamer-btn-rect" aria-haspopup="true" :aria-expanded="profileOpen.toString()">
-                        <span class="perfil-name">{{ Auth::user()->name }}</span>
-                        <svg class="chev" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path fill="currentColor" fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </button>
+                @auth
+                    <div class="relative" x-data="{ profileOpen: false }" @click.outside="profileOpen = false">
+                        <button @click="profileOpen = !profileOpen" class="gamer-btn-rect" aria-haspopup="true" :aria-expanded="profileOpen.toString()">
+                            <span class="perfil-name">{{ Auth::user()->name }}</span>
+                            <svg class="chev" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path fill="currentColor" fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </button>
 
-                    <div x-show="profileOpen" x-transition class="dropdown-gamer" x-cloak>
-                        <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
+                        <div x-show="profileOpen" x-transition class="dropdown-gamer" x-cloak>
+                            <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
 
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="dropdown-item">Log Out</button>
-                        </form>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item">Log Out</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                @endauth
 
                 <!-- Mobile hamburger -->
                 <div class="sm:hidden">
@@ -52,18 +64,29 @@
             <ul class="gamer-menu-mobile flex flex-col gap-2">
                 <li><a href="{{ route('dashboard') }}" class="gamer-link-mobile">Inicio</a></li>
 
+                @auth
+                    @if(! Auth::user()->isAdmin())
+                        <li><a href="{{ route('quienes-somos') }}" class="gamer-link-mobile">Quiénes Somos</a></li>
+                        <li><a href="{{ route('contacto') }}" class="gamer-link-mobile">Contáctanos</a></li>
+                        <li><a href="{{ route('reserva.index') }}" class="gamer-link-mobile">Reserva</a></li>
+                    @else
+                        <li><a href="{{ route('admin.reservas') }}" class="gamer-link-mobile text-pink-400">Gestionar Reservas</a></li>
+                    @endif
+                @endauth
             </ul>
 
-            <div class="mobile-profile mt-4 border-t border-[#00ffcc33] pt-3">
-                <div class="text-sm text-[#00ffcc] font-semibold">{{ Auth::user()->name }}</div>
-                <div class="text-xs text-gray-400 mb-2">{{ Auth::user()->email }}</div>
+            @auth
+                <div class="mobile-profile mt-4 border-t border-[#00ffcc33] pt-3">
+                    <div class="text-sm text-[#00ffcc] font-semibold">{{ Auth::user()->name }}</div>
+                    <div class="text-xs text-gray-400 mb-2">{{ Auth::user()->email }}</div>
 
-                <a href="{{ route('profile.edit') }}" class="dropdown-item block mb-2">Profile</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="dropdown-item block">Log Out</button>
-                </form>
-            </div>
+                    <a href="{{ route('profile.edit') }}" class="dropdown-item block mb-2">Profile</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item block">Log Out</button>
+                    </form>
+                </div>
+            @endauth
         </div>
     </div>
 </nav>
