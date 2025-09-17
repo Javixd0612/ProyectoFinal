@@ -1,0 +1,111 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #0b0b0b;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal */
+.inicio-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Bienvenida */
+.bienvenida {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.titulo {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #00eaff;
+    text-shadow: 0 0 15px #00eaff;
+}
+
+.subtitulo {
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+/* Secciones */
+.seccion {
+    margin-bottom: 40px;
+}
+
+.seccion-titulo {
+    font-size: 1.6rem;
+    color: #00eaff;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Tarjetas */
+.tarjetas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.tarjeta {
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 234, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tarjeta img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.tarjeta-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.tarjeta:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 234, 255, 0.4);
+}
+
+/* Promociones */
+.promos-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.promo {
+    background: linear-gradient(145deg, #111, #1b1b1b);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid #00eaff44;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.promo:hover {
+    transform: scale(1.05);
+    background: linear-gradient(145deg, #1b1b1b, #111);
+}
+
+/* Footer */
+.footer {
+    margin-top: 40px;
+    text-align: center;
+    border-top: 1px solid #222;
+    padding: 15px 0;
+    color: #bbb;
+}
+
+.redes {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;

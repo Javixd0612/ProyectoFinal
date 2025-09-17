@@ -1,137 +1,72 @@
-/* ===== Video de fondo ===== */
-.video-fondo {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    z-index: -2;
-}
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
-    z-index: -1;
-}
+/* ===== Video y Overlay (igual que el tuyo) ===== */
+.video-fondo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.overlay { position: fixed; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0.95)); z-index: -1; }
 
 /* ===== Contenedor ===== */
-.contenedor {
-    max-width: 1200px;
-    margin: 100px auto;
-    padding: 20px;
-    color: #fff;
-    text-align: center;
+.contenedor { max-width: 1200px; margin: 100px auto; padding: 20px; color: #fff; text-align: center; }
+
+/* ===== Hero Text ===== */
+.hero-text h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+.hero-text .neon {
+    color: #00ff9d;
+    text-shadow: 0 0 15px #00ff9d, 0 0 30px #00ff9d;
 }
 
-/* ===== Glassmorphism Cards ===== */
+/* ===== Grid ===== */
+.grid-2, .grid-3 {
+    display: grid;
+    gap: 25px;
+    margin-top: 40px;
+}
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+/* ===== Cards ===== */
 .card {
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(0,255,157,0.3);
     border-radius: 16px;
-    padding: 30px;
-    margin: 30px 0;
+    padding: 25px;
     backdrop-filter: blur(10px);
-    box-shadow: 0 0 20px rgba(0,255,157,0.4);
+    box-shadow: 0 0 15px rgba(0,255,157,0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 0 30px rgba(0,255,157,0.7);
-}
+.card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 0 25px rgba(0,255,157,0.7); }
 
-/* ===== Títulos ===== */
-h1, h2 {
-    color: #00ff9d;
-    text-transform: uppercase;
-    text-shadow: 0 0 12px #00ff9d;
-    margin-bottom: 20px;
-}
-p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-}
+/* ===== Features con tilt efecto ===== */
+.feature { cursor: pointer; transform-style: preserve-3d; transition: transform 0.2s ease; }
+.feature:hover { transform: rotateX(8deg) rotateY(-8deg); }
 
-/* ===== Grid moderno ===== */
-.grid-2 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 25px;
-}
-
-/* ===== Tags (valores) ===== */
-.tags {
+/* ===== Stats Section ===== */
+.stats-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
     justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
 }
-.tags span {
-    background: rgba(0,255,157,0.1);
-    border: 1px solid #00ff9d;
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 0.95rem;
-    box-shadow: 0 0 8px #00ff9d;
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-
-/* ===== Beneficios ===== */
-.beneficios {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-}
-.beneficio {
-    padding: 15px;
-    border-radius: 10px;
-    background: rgba(0,255,157,0.1);
-    border: 1px solid #00ff9d;
-    box-shadow: 0 0 10px #00ff9d;
-}
-
-/* ===== Botones ===== */
-.btn-redes, .btn-cta {
-    display: inline-block;
-    margin: 12px;
-    padding: 12px 22px;
-    border-radius: 8px;
-    text-decoration: none;
+.stat .number {
+    font-size: 2rem;
     font-weight: bold;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-}
-.btn-redes {
     color: #00ff9d;
-    border: 1px solid #00ff9d;
-    background: transparent;
-    box-shadow: 0 0 10px #00ff9d;
+    text-shadow: 0 0 12px #00ff9d;
 }
-.btn-redes:hover {
-    background: #00ff9d;
-    color: #000;
-}
-.btn-cta {
-    background: linear-gradient(90deg, #00ff9d, #00cc7d);
-    color: #000;
-    box-shadow: 0 0 15px #00ff9d;
-}
-.btn-cta:hover {
-    background: linear-gradient(90deg, #00cc7d, #00ff9d);
-    box-shadow: 0 0 25px #00ff9d;
-}
+.stat .label { font-size: 0.9rem; color: #ccc; }
+
+/* ===== Botones (igual que los tuyos) ===== */
+.btn-redes, .btn-cta { /* ... aquí puedes dejar el mismo CSS que ya tenías ... */ }
 
 /* ===== Animaciones ===== */
-.fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeIn 1s forwards;
-}
-.slide-up {
-    opacity: 0;
-    transform: translateY(40px);
-    animation: slideUp 1.2s forwards;
-}
-@keyframes fadeIn {
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes slideUp {
-    to { opacity: 1; transform: translateY(0); }
-}
+.fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 1s forwards; }
+.slide-up { opacity: 0; transform: translateY(40px); animation: slideUp 1.2s forwards; }
+@keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
