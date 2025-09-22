@@ -45,3 +45,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/usuarios', fn() => view('admin.usuarios'))->name('admin.usuarios');
     Route::get('/configuraciones', fn() => view('admin.configuraciones'))->name('admin.configuraciones');
 });
+
+use App\Http\Controllers\ContactoController;
+
+Route::post('/contacto', [ContactoController::class, 'enviar'])->name('contacto.enviar');

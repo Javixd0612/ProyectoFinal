@@ -15,21 +15,29 @@
             Escríbenos y te responderemos lo más pronto posible.
         </p>
 
-        <form action="#" method="POST" class="formulario">
+        {{-- Mensaje de éxito --}}
+        @if(session('success'))
+            <div class="alerta-exito">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- Formulario --}}
+        <form action="{{ route('contacto.enviar') }}" method="POST" class="formulario">
             @csrf
             <div>
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre">
+                <input type="text" id="nombre" name="nombre" required>
             </div>
 
             <div>
                 <label for="email">Correo</label>
-                <input type="email" id="email" name="email">
+                <input type="email" id="email" name="email" required>
             </div>
 
             <div>
                 <label for="mensaje">Mensaje</label>
-                <textarea id="mensaje" name="mensaje" rows="4"></textarea>
+                <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
             </div>
 
             <button type="submit" class="btn-enviar">Enviar Mensaje</button>

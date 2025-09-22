@@ -14,7 +14,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     z-index: -1;
 }
 
@@ -22,12 +22,12 @@
 .container-contacto {
     max-width: 600px;
     margin: 100px auto;
-    background: rgba(20, 20, 20, 0.75);
-    backdrop-filter: blur(12px);
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(10px);
     padding: 2rem;
     border-radius: 18px;
-    border: 1px solid #3fd1c2;
-    box-shadow: 0 0 25px rgba(63, 209, 194, 0.5);
+    border: 1px solid #0fffc6;
+    box-shadow: 0 0 25px rgba(0, 255, 200, 0.5);
     text-align: center;
     color: #fff;
 }
@@ -35,8 +35,8 @@
 /* ===== TITULO ===== */
 .titulo {
     font-size: 2rem;
-    color: #3fd1c2;
-    text-shadow: 0 0 12px rgba(63, 209, 194, 0.6);
+    color: #00ffcc;
+    text-shadow: 0 0 12px rgba(0, 255, 200, 0.8);
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -44,7 +44,7 @@
 
 /* ===== TEXTO ===== */
 .descripcion {
-    color: #d3d3d3;
+    color: #cfcfcf;
     margin-bottom: 1.5rem;
     font-size: 1rem;
     line-height: 1.6;
@@ -54,10 +54,10 @@
 .formulario label {
     display: block;
     text-align: left;
-    color: #3fd1c2;
+    color: #00ffcc;
     margin-bottom: 5px;
     font-weight: bold;
-    text-shadow: 0 0 8px rgba(63, 209, 194, 0.5);
+    text-shadow: 0 0 8px rgba(0, 255, 200, 0.6);
 }
 
 .formulario input,
@@ -65,8 +65,8 @@
     width: 100%;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid rgba(63, 209, 194, 0.5);
-    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 255, 200, 0.4);
+    background: rgba(0, 0, 0, 0.7);
     color: white;
     margin-bottom: 1rem;
     transition: all 0.3s ease;
@@ -74,28 +74,29 @@
 .formulario input:focus,
 .formulario textarea:focus {
     outline: none;
-    box-shadow: 0 0 12px #3fd1c2, 0 0 25px rgba(63, 209, 194, 0.4);
-    border-color: #3fd1c2;
+    box-shadow: 0 0 12px #00ffcc, 0 0 25px rgba(0, 255, 200, 0.6);
+    border-color: #00ffcc;
 }
 
 /* ===== BOTÓN ENVIAR ===== */
 .btn-enviar {
     width: 100%;
     padding: 12px;
-    background: linear-gradient(135deg, #3fd1c2, #0077ff);
-    border: none;
-    color: #fff;
+    background: transparent;
+    border: 1px solid #00ccff;
+    color: #00ccff;
     font-weight: bold;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
-    box-shadow: 0 0 15px rgba(63, 209, 194, 0.4);
+    box-shadow: 0 0 15px rgba(0, 200, 255, 0.4);
 }
 .btn-enviar:hover {
-    background: linear-gradient(135deg, #2cb8a8, #0066dd);
+    background: rgba(0, 200, 255, 0.1);
     transform: translateY(-2px);
-    box-shadow: 0 0 25px rgba(63, 209, 194, 0.6);
+    box-shadow: 0 0 25px rgba(0, 200, 255, 0.8);
+    color: #fff;
 }
 
 /* ===== REDES SOCIALES ===== */
@@ -111,14 +112,37 @@
     border-radius: 10px;
     font-weight: bold;
     text-decoration: none;
-    color: #3fd1c2;
-    border: 1px solid rgba(63, 209, 194, 0.6);
-    box-shadow: 0 0 10px rgba(63, 209, 194, 0.4);
+    color: #fff;
     transition: all 0.3s ease;
 }
-.btn-redes:hover {
-    background: rgba(63, 209, 194, 0.1);
-    transform: scale(1.07);
+
+/* Estilos específicos para cada red */
+.btn-redes:nth-child(1) { /* Facebook */
+    border: 1px solid #1877f2;
+    color: #1877f2;
+    box-shadow: 0 0 12px rgba(24, 119, 242, 0.6);
+}
+.btn-redes:nth-child(1):hover {
+    background: rgba(24, 119, 242, 0.2);
     color: #fff;
-    box-shadow: 0 0 20px rgba(63, 209, 194, 0.7);
+}
+
+.btn-redes:nth-child(2) { /* Instagram */
+    border: 1px solid #e4405f;
+    color: #e4405f;
+    box-shadow: 0 0 12px rgba(228, 64, 95, 0.6);
+}
+.btn-redes:nth-child(2):hover {
+    background: rgba(228, 64, 95, 0.2);
+    color: #fff;
+}
+
+.btn-redes:nth-child(3) { /* Twitter / X */
+    border: 1px solid #1da1f2;
+    color: #1da1f2;
+    box-shadow: 0 0 12px rgba(29, 161, 242, 0.6);
+}
+.btn-redes:nth-child(3):hover {
+    background: rgba(29, 161, 242, 0.2);
+    color: #fff;
 }

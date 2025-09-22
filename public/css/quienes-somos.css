@@ -13,8 +13,8 @@
     letter-spacing: 2px;
 }
 .hero-text .neon {
-    color: #00ff9d;
-    text-shadow: 0 0 15px #00ff9d, 0 0 30px #00ff9d;
+    color: #00ffcc;
+    text-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
 }
 
 /* ===== Grid ===== */
@@ -29,11 +29,11 @@
 /* ===== Cards ===== */
 .card {
     background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(0,255,157,0.3);
+    border: #00ffcc;
     border-radius: 16px;
     padding: 25px;
     backdrop-filter: blur(10px);
-    box-shadow: 0 0 15px rgba(0,255,157,0.4);
+    box-shadow: 0 0 15px rgba(100, 219, 174, 0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 0 25px rgba(0,255,157,0.7); }
@@ -57,8 +57,8 @@
 .stat .number {
     font-size: 2rem;
     font-weight: bold;
-    color: #00ff9d;
-    text-shadow: 0 0 12px #00ff9d;
+    color: #00ffcc;
+    text-shadow: 0 0 12px #00ffcc;
 }
 .stat .label { font-size: 0.9rem; color: #ccc; }
 
