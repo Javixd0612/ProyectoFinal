@@ -51,6 +51,11 @@ class Kernel extends HttpKernel
      * @var array<string,string>
      */
     protected $routeMiddleware = [
+        // Removed Spatie middleware references to avoid BindingResolutionException
+        //'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        //'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        //'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -61,9 +66,5 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-
-        // Spatie role/permission middlewares (añadidas)
-        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
     ];
 }

@@ -3,116 +3,201 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Console;
-use App\Models\Reserva;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Reserva;
+use App\Models\Consola;
+use Carbon\Carbon;
 
 class ReservaController extends Controller
 {
-    // Vista usuario (solo clientes, no admin)
     public function index()
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
-            return redirect()->route('admin.reservas')
-                ->with('error', 'Los administradores no pueden acceder a la interfaz de reservas.');
-        }
+        $consolas = Consola::all();
+        $misReservas = Auth::user()->reservas()->orderBy('start_at', 'desc')->get();
 
-        $consoles = Console::all();
-        $userReservas = Auth::user()->reservas()
-            ->orderByDesc('date')
-            ->orderByDesc('start_time')
-            ->get();
-
-        return view('reserva.index', compact('consoles', 'userReservas'));
+        return view('reserva.index', compact('consolas', 'misReservas'));
     }
 
-    // Guardar reserva (solo clientes)
     public function store(Request $request)
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
-            return redirect()->route('admin.reservas')
-                ->with('error', 'Los administradores no pueden crear reservas.');
+        $request->validate([
+            'consola_id' => 'required|exists:consolas,id',
+            'fecha'      => 'required|date',
+            'hora'       => 'required',
+            'horas'      => 'required|integer|min:1|max:3',
+        ]);
+
+        $consola = Consola::findOrFail($request->consola_id);
+
+        $startAt = Carbon::parse($request->fecha . ' ' . $request->hora);
+        $horasEntero = (int) $request->horas;
+        $endAt = (clone $startAt)->addHours($horasEntero);
+
+        $now = Carbon::now();
+        if ($startAt->lt($now)) {
+            return back()->withErrors(['fecha' => 'No puedes reservar en una fecha/hora pasada.'])->withInput();
+        }
+
+        if (Reserva::overlaps($consola->id, $startAt, $endAt)) {
+            return back()->withErrors(['conflict' => 'La consola ya está reservada y pagada en ese horario.'])->withInput();
+        }
+
+        $precioTotal = round($consola->precio_hora * $horasEntero, 2);
+
+        $reserva = Reserva::create([
+            'user_id' => Auth::id(),
+            'consola_id' => $consola->id,
+            'start_at' => $startAt,
+            'end_at' => $endAt,
+            'horas' => $horasEntero,
+            'precio_total' => $precioTotal,
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('reserva.index')->with('success', 'Reserva creada. Recuerda pagar para confirmar.');
+    }
+
+    public function edit(Reserva $reserva)
+    {
+        if ($reserva->user_id !== Auth::id() || $reserva->status !== 'pending') {
+            return redirect()->route('reserva.index')->withErrors('No puedes editar esta reserva.');
+        }
+
+        $consolas = Consola::all();
+
+        return view('reserva.edit', compact('reserva', 'consolas'));
+    }
+
+    public function update(Request $request, Reserva $reserva)
+    {
+        if ($reserva->user_id !== Auth::id() || $reserva->status !== 'pending') {
+            return redirect()->route('reserva.index')->withErrors('No puedes editar esta reserva.');
         }
 
         $request->validate([
-            'console_id' => ['required','exists:consoles,id'],
-            'date'       => ['required','date','after_or_equal:today'],
-            'start_time' => ['required','date_format:H:i'],
+            'consola_id' => 'required|exists:consolas,id',
+            'fecha'      => 'required|date',
+            'hora'       => 'required',
+            'horas'      => 'required|integer|min:1|max:3',
         ]);
 
-        $user = Auth::user();
-        if (!$user) {
-            return redirect()->route('login');
+        $consola = Consola::findOrFail($request->consola_id);
+        $startAt = Carbon::parse($request->fecha . ' ' . $request->hora);
+        $horasEntero = (int) $request->horas;
+        $endAt = (clone $startAt)->addHours($horasEntero);
+
+        $now = Carbon::now();
+        if ($startAt->lt($now)) {
+            return back()->withErrors(['fecha' => 'No puedes actualizar a una fecha/hora pasada.'])->withInput();
         }
 
-        // Verificar si ya tiene reserva activa
-        $hasActive = Reserva::where('user_id', $user->id)
-            ->whereIn('status',['pending','paid'])
-            ->whereDate('date', '>=', now()->toDateString())
-            ->exists();
-
-        if ($hasActive) {
-            return back()->withErrors(['Ya tienes una reserva activa.'])->withInput();
+        if (Reserva::where('id', '!=', $reserva->id)
+            ->where('consola_id', $consola->id)
+            ->where('status', 'paid')
+            ->where('start_at', '<', $endAt)
+            ->where('end_at', '>', $startAt)
+            ->exists()
+        ) {
+            return back()->withErrors(['conflict' => 'Horario no disponible (existente reserva pagada).'])->withInput();
         }
 
-        $date  = $request->input('date');
-        $start = $request->input('start_time');
-
-        // Generar hora fin automáticamente (+1 hora)
-        $startCarbon = Carbon::createFromFormat('H:i', $start);
-        $endCarbon   = $startCarbon->copy()->addHour();
-        $end         = $endCarbon->format('H:i');
-
-        // Validar solapamiento
-        $overlap = Reserva::where('console_id', $request->console_id)
-            ->where('date', $date)
-            ->where(function($q) use ($start, $end) {
-                $q->where('start_time', '<', $end)
-                  ->where('end_time', '>', $start);
-            })->exists();
-
-        if ($overlap) {
-            return back()->withErrors(['El horario ya está ocupado para esa consola.'])->withInput();
-        }
-
-        // Calcular costo (siempre 1h)
-        $console = Console::findOrFail($request->console_id);
-        $total   = intval(round($console->price_per_hour));
-
-        Reserva::create([
-            'user_id'     => $user->id,
-            'console_id'  => $console->id,
-            'date'        => $date,
-            'start_time'  => $start,
-            'end_time'    => $end,
-            'total_price' => $total,
-            'status'      => 'pending',
+        $reserva->update([
+            'consola_id' => $consola->id,
+            'start_at' => $startAt,
+            'end_at' => $endAt,
+            'horas' => $horasEntero,
+            'precio_total' => round($consola->precio_hora * $horasEntero, 2),
         ]);
 
-        return redirect()->route('reserva.index')
-            ->with('success', 'Reserva creada correctamente. Total: '.number_format($total).' COP');
+        return redirect()->route('reserva.index')->with('success', 'Reserva actualizada.');
     }
 
-    // Vista admin: todas las reservas
-    public function adminIndex()
-    {
-        $reservas = Reserva::with('user','console')
-            ->orderBy('date','desc')
-            ->orderBy('start_time','desc')
-            ->get();
-
-        return view('admin.reservas', compact('reservas'));
-    }
-
-    // Admin: eliminar reserva
     public function destroy(Reserva $reserva)
     {
-        if ($reserva->status === 'paid') {
-            return back()->withErrors(['Esta reserva ya fue pagada y no puede eliminarse.']);
+        if ($reserva->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
+            abort(403);
         }
 
-        $reserva->delete();
-        return back()->with('success','Reserva eliminada.');
+        if (Auth::user()->isAdmin()) {
+            $reserva->delete();
+            return back()->with('success', 'Reserva eliminada por admin.');
+        }
+
+        if ($reserva->status === 'paid') {
+            return back()->withErrors('No puedes cancelar una reserva pagada. Contacta al admin.');
+        }
+
+        $reserva->update(['status' => 'canceled']);
+        return back()->with('success', 'Reserva cancelada.');
+    }
+
+    public function pay(Reserva $reserva)
+    {
+        if ($reserva->user_id !== Auth::id()) abort(403);
+        if ($reserva->status !== 'pending') return back()->withErrors('Reserva no está en estado pendiente.');
+
+        $reserva->update(['status' => 'paid']);
+
+        return redirect()->route('reserva.index')->with('success', 'Pago simulado: reserva marcada como pagada.');
+    }
+
+    /* ---------- ADMIN ---------- */
+
+    public function adminIndex()
+    {
+        // Aseguramos que solo admin acceda
+        if (! Auth::user() || ! Auth::user()->isAdmin()) {
+            abort(403);
+        }
+
+        $reservas = Reserva::with('user', 'consola')->orderBy('start_at', 'desc')->get();
+
+        $totalGanancias = $reservas->where('status', 'paid')->sum('precio_total');
+        $totalPendientes = $reservas->where('status', 'pending')->sum('precio_total');
+        $pagadas = $reservas->where('status', 'paid')->count();
+        $pendientes = $reservas->where('status', 'pending')->count();
+
+        // Si la vista blade existe, la usamos (comportamiento normal)
+        if (view()->exists('admin.reservas')) {
+            return view('admin.reservas', compact('reservas', 'totalGanancias', 'totalPendientes', 'pagadas', 'pendientes'));
+        }
+
+        // FALLBACK (temporal): si la vista no existe, devolvemos HTML básico para que sigas trabajando.
+        $html = '<!doctype html><html><head><meta charset="utf-8"><title>Admin - Reservas (fallback)</title></head><body style="font-family: Arial, sans-serif; padding:20px;">';
+        $html .= '<h1>Panel Admin - Reservas (fallback)</h1>';
+        $html .= '<p style="color:darkred">Nota: la vista <strong>admin.reservas</strong> no fue encontrada. Muestra de datos en fallback.</p>';
+        $html .= '<div><strong>Total ganancias (pagadas):</strong> $'.number_format($totalGanancias ?? 0,0,',','.').'</div>';
+        $html .= '<div><strong>Total pendientes:</strong> $'.number_format($totalPendientes ?? 0,0,',','.').'</div>';
+        $html .= '<div style="margin-top:10px;"><table border="1" cellpadding="6" cellspacing="0"><thead><tr><th>Usuario</th><th>Consola</th><th>Inicio</th><th>Fin</th><th>Precio</th><th>Estado</th></tr></thead><tbody>';
+        foreach ($reservas as $r) {
+            $html .= '<tr>';
+            $html .= '<td>'.htmlspecialchars($r->user->name ?? '—').' <br><small>'.htmlspecialchars($r->user->email ?? '').'</small></td>';
+            $html .= '<td>'.htmlspecialchars($r->consola->nombre ?? '—').'</td>';
+            $html .= '<td>'.optional($r->start_at)->format('Y-m-d H:i').'</td>';
+            $html .= '<td>'.optional($r->end_at)->format('Y-m-d H:i').'</td>';
+            $html .= '<td>$'.number_format($r->precio_total ?? 0,0,',','.').'</td>';
+            $html .= '<td>'.htmlspecialchars(ucfirst($r->status ?? '—')).'</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</tbody></table></div>';
+        $html .= '<p style="margin-top:12px;color:#666">Crea <code>resources/views/admin/reservas.blade.php</code> para usar la vista con layout.</p>';
+        $html .= '</body></html>';
+
+        return response($html, 200)->header('Content-Type', 'text/html');
+    }
+
+    public function adminMarkPaid(Reserva $reserva)
+    {
+        if (!Auth::user()->isAdmin()) abort(403);
+        $reserva->update(['status' => 'paid']);
+        return back()->with('success', 'Reserva marcada como pagada.');
+    }
+
+    public function adminUpdateConsolaPrice(Request $request, Consola $consola)
+    {
+        if (!Auth::user()->isAdmin()) abort(403);
+        $request->validate(['precio_hora' => 'required|numeric|min:0']);
+        $consola->update(['precio_hora' => $request->precio_hora]);
+        return back()->with('success', 'Precio de consola actualizado.');
     }
 }

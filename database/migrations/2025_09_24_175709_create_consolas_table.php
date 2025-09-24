@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,8 +11,8 @@ class CreateConsolasTable extends Migration
         Schema::create('consolas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->decimal('precio_hora', 8, 2)->default(0);
             $table->text('descripcion')->nullable();
-            $table->boolean('disponible')->default(true);
             $table->timestamps();
         });
     }

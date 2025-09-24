@@ -7,10 +7,19 @@ use Carbon\Carbon;
 
 class Reserva extends Model
 {
-    protected $table = 'reservas';
-
     protected $fillable = [
-        'user_id','console_id','date','start_time','end_time','total_price','status','notes'
+        'user_id',
+        'consola_id',
+        'start_at',
+        'end_at',
+        'horas',
+        'precio_total',
+        'status',
+    ];
+
+    protected $casts = [
+        'start_at' => 'datetime',
+        'end_at'   => 'datetime',
     ];
 
     public function user()
@@ -18,13 +27,21 @@ class Reserva extends Model
         return $this->belongsTo(\App\Models\User::class);
     }
 
-    public function console()
+    public function consola()
     {
-        return $this->belongsTo(\App\Models\Console::class, 'console_id');
+        return $this->belongsTo(\App\Models\Consola::class);
     }
 
-    public function isActive(): bool
+    /**
+     * Comprueba si existe una reserva pagada que solape el intervalo.
+     * Según la regla pedida: solo las reservas 'paid' bloquean a otras.
+     */
+    public static function overlaps($consolaId, $startAt, $endAt)
     {
-        return in_array($this->status, ['pending','paid']) && Carbon::parse($this->date)->isAfter(now()->subDay());
+        return self::where('consola_id', $consolaId)
+            ->where('status', 'paid')
+            ->where('start_at', '<', $endAt)
+            ->where('end_at', '>', $startAt)
+            ->exists();
     }
 }

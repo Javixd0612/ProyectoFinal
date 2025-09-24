@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,15 +12,14 @@ class CreateReservasTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('consola_id')->constrained('consolas')->onDelete('cascade');
-            $table->date('fecha');
-            $table->time('hora_inicio');
-            $table->time('hora_fin');
-            $table->decimal('precio', 10, 2);
-            $table->enum('estado', ['pendiente','pagada','cancelada'])->default('pendiente');
-            $table->string('pago_id')->nullable();
-            $table->string('cancel_reason')->nullable();
-            $table->foreignId('cancelled_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->dateTime('start_at');
+            $table->dateTime('end_at');
+            $table->unsignedTinyInteger('horas'); // 1..3
+            $table->decimal('precio_total', 10, 2);
+            $table->string('status')->default('pending'); // pending, paid, canceled
             $table->timestamps();
+
+            $table->index(['consola_id', 'start_at', 'end_at']);
         });
     }
 

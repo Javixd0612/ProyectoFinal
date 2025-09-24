@@ -11,10 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Llama a los seeders que necesites
+        // Llama a los seeders correctos
         $this->call([
-            AdminUserSeeder::class,
-            ConsolasTarifasSeeder::class,
+            \Database\Seeders\AdminUserSeeder::class,
+            \Database\Seeders\ConsoleSeeder::class,
         ]);
     }
 }
