@@ -6,11 +6,21 @@
     <title>Registro | TenoJuegos 🎮</title>
     <link href="{{ asset('css/gamer.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+    {{-- ✅ Script de Google reCAPTCHA --}}
+    {!! NoCaptcha::renderJs() !!}
 </head>
 <body>
     <div class="login-container">
         <div class="login-box">
             <h2 class="login-title">TenoJuegos 🎮</h2>
+
+            {{-- ✅ Mensaje de éxito si se envió el correo de verificación --}}
+            @if (session('status'))
+                <div class="alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
 
             {{-- ⚠️ Alerta si hay errores en el formulario --}}
             @if ($errors->any())
@@ -54,8 +64,18 @@
                     @enderror
                 </div>
 
+                {{-- ✅ reCAPTCHA aquí --}}
+                <div class="form-group recaptcha-container">
+                    {!! NoCaptcha::display(['data-callback' => 'enableRegisterButton']) !!}
+                    @error('g-recaptcha-response')
+                        <div class="alert-error">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <div class="form-actions">
-                    <button type="submit" class="neon-btn">Registrarse</button>
+                    <button type="submit" id="register-btn" class="neon-btn" disabled>
+                        Registrarse
+                    </button>
                     <a class="forgot-link" href="{{ route('login') }}">
                         ¿Ya tienes cuenta? Inicia sesión
                     </a>
@@ -63,5 +83,22 @@
             </form>
         </div>
     </div>
+
+    {{-- ✅ Script que habilita el botón cuando se marca reCAPTCHA --}}
+    <script>
+        function enableRegisterButton() {
+            document.getElementById('register-btn').removeAttribute('disabled');
+        }
+    </script>
+
+    <script>
+document.querySelector("form").addEventListener("submit", function(e) {
+    if (grecaptcha.getResponse().length === 0) {
+        e.preventDefault();
+        alert("⚠️ Necesitas marcar el reCAPTCHA para poder registrarte.");
+    }
+});
+</script>
+
 </body>
 </html>

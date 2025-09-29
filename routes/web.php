@@ -60,3 +60,10 @@ Route::middleware('auth')->group(function () {
     });
 
 });
+
+use App\Http\Controllers\PreRegistroController;
+
+Route::get('/register', [PreRegistroController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [PreRegistroController::class, 'store']);
+Route::get('/verify-pre/{token}', [PreRegistroController::class, 'verify'])->name('verify.pre');
+Route::get('/verify-pre/{token}', [PreRegistroController::class, 'verify'])->name('verify.pre');
