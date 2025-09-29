@@ -1,143 +1,154 @@
-/* public/css/app_reservas.css */
-/* Variables */
 :root{
-  --bg1: #0f0f0f;
-  --bg2: #000000;
-  --neon-cyan: #00ffcc;
-  --neon-pink: #ff0099;
-  --card-bg: #111;
-  --muted: #aaa;
-  --success: #28a745;
-  --warning: #ffc107;
-  --danger: #ff0033;
-  --text: #ffffff;
-  --radius: 12px;
-  --glass: rgba(255,255,255,0.03);
+    --nav-height: 64px;
+    --neon-cyan: #00ffcc;
+    --bg-dark: #0b0b0b;
+    --card-bg: linear-gradient(180deg, #0e0e0e, #141414);
 }
 
-/* Reset & base */
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family: 'Orbitron', sans-serif;
-  background: radial-gradient(circle at top, var(--bg1), var(--bg2));
-  color: var(--text);
-  min-height:100vh;
-  line-height:1.3;
+/* -- NAV / PROFILE -- */
+.gamer-nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    z-index: 120;
+    background: rgba(0,0,0,0.85);
+    border-bottom: 1px solid rgba(0,255,204,0.03);
+    display: flex;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.75);
 }
 
-/* Layout helper */
-.container{width:95%;max-width:1200px;margin:1.5rem auto;padding:0 1rem}
-
-/* Navbar */
-.main-nav{background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:0.6rem 1rem;border-radius:10px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 0 12px rgba(0,0,0,0.5);margin-bottom:1rem}
-.main-nav ul{display:flex;gap:0.8rem;list-style:none;align-items:center}
-.main-nav a{color:var(--neon-cyan);text-decoration:none;padding:8px 12px;border-radius:8px}
-.main-nav a:hover{background:var(--glass);color:var(--text)}
-
-/* Cards */
-.card{background:var(--card-bg);padding:1rem;border-radius:var(--radius);box-shadow:0 0 12px rgba(0,0,0,0.6);margin-bottom:1rem}
-
-/* Forms */
-.form-group{margin-bottom:1rem}
-.form-group label{display:block;margin-bottom:0.5rem;color:var(--neon-cyan);font-size:0.95rem}
-.form-group input, .form-group select, .form-group textarea{width:100%;padding:0.6rem;border:none;border-radius:8px;background:#1e1e1e;color:var(--text);outline:none;box-shadow: inset 0 0 5px var(--neon-cyan)}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus{background:#222; box-shadow:0 0 6px var(--neon-cyan)}
-
-/* Buttons */
-.neon-btn{background:var(--neon-pink);color:var(--text);border:none;padding:12px 20px;border-radius:10px;font-size:1rem;cursor:pointer;box-shadow:0 0 14px var(--neon-pink)}
-.neon-btn:hover{background:var(--text);color:var(--neon-pink)}
-
-/* Ghost button */
-.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:8px;color:var(--neon-cyan)}
-
-/* Alerts */
-.alert-error{background:var(--danger);color:#fff;padding:0.8rem;border-radius:10px;margin-bottom:1rem;box-shadow:0 0 10px var(--danger)}
-.alert-success{background:var(--success);color:#fff;padding:0.8rem;border-radius:10px;margin-bottom:1rem}
-
-/* Table */
-.table{width:100%;border-collapse:collapse;margin:0.5rem 0;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border-radius:10px;overflow:hidden}
-.table th, .table td{padding:0.75rem 0.8rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03)}
-.table thead th{background:rgba(0,0,0,0.25);color:var(--neon-cyan)}
-.table tbody tr:hover{background:rgba(0,0,0,0.15)}
-
-/* Small */
-.small{font-size:0.8rem;color:var(--muted)}
-
-/* Calendar */
-#calendar{background:transparent;padding:0.5rem;border-radius:8px}
-
-/* Responsive */
-@media (max-width:768px){
-  .main-nav ul{flex-direction:column;gap:0.4rem}
-  .container{padding:0 0.6rem}
-}
-/* Mejoras para formulario y modal de simulación */
-.card { padding: 1rem; border-radius: 12px; background: #111; }
-#calendar { min-height: 400px; border-radius: 8px; }
-.modal { position: fixed; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:9999; }
-.modal-content { max-width:500px; width:90%; padding:1rem; border-radius:10px; background: #0b0b0b; box-shadow: 0 0 18px rgba(0,0,0,0.6); }
-.card.small { padding: 0.6rem; background: #0f0f0f; border-radius:6px; }
-
-/* Ajustes para que los formularios se vean mejor con tu layout */
-.page-bg { background: transparent !important; }
-.page-wrapper { padding: 2rem 0; }
-.content-area { padding: 1rem; }
-
-/* Asegura contraste en inputs y cards */
-.card { background: linear-gradient(180deg, #0e0e0e, #141414); border: 1px solid rgba(0,255,204,0.03); }
-.form-group input, .form-group select { background: #141414; color: #fff; box-shadow: inset 0 0 6px rgba(0,255,204,0.03); }
-
-/* Modal más visible y contenido legible */
-.modal { background: rgba(0,0,0,0.55); }
-.modal-content { background: linear-gradient(180deg,#0b0b0b,#0f0f0f); color: #fff; }
-
-/* Mejorar tabla para que no se vea 'desordenada' */
-.table th, .table td { padding: 0.9rem 1rem; }
-.table tbody tr td { vertical-align: middle; }
-
-/* Botones en mobile */
-@media (max-width:768px) {
-  .card { padding: 0.8rem; }
-  .neon-btn { width:100%; }
+/* contenedor interno */
+.gamer-nav .container{
+    display:flex;
+    align-items:center;
+    gap: 16px;
+    width:100%;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
+/* empuja la zona del perfil al extremo derecho */
+.gamer-nav .profile-area{
+    margin-left: auto;
+    display:flex;
+    align-items:center;
+    position: relative; /* base para dropdown absolute */
+}
+
+/* botón del perfil */
+.gamer-btn-rect{
+    background: transparent;
+    border: 1px solid rgba(0,255,204,0.05);
+    padding: 8px 12px;
+    border-radius: 10px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+    cursor:pointer;
+    color: var(--neon-cyan);
+}
+
+/* nombre y flecha */
+.perfil-name{ font-weight:700; color:var(--neon-cyan); }
+.gamer-btn-rect .chev{ width:16px; height:16px; opacity:0.9; }
+
+/* dropdown: siempre en esquina superior-derecha del nav */
+.dropdown-gamer{
+    position: absolute;
+    right: 8px;
+    top: calc(var(--nav-height) + 8px);
+    min-width: 160px;
+    background: #071212;
+    border: 1px solid rgba(0,255,204,0.06);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    padding: 8px 0;
+    z-index: 9999;
+}
+
+/* items del dropdown */
+.dropdown-gamer .dropdown-item{
+    display:block;
+    padding:10px 14px;
+    text-decoration:none;
+    color: #cfeee6;
+    font-weight:500;
+}
+.dropdown-gamer .dropdown-item:hover{ background: rgba(0,255,204,0.02); color:var(--neon-cyan); }
+
+/* espacio reservado para que el contenido no quede oculto bajo la nav fija */
+.reserved-nav-space{ height: var(--nav-height); width:100%; }
+
+/* -- PAGE LAYOUT -- */
+.page-wrapper{ padding-top: 12px; max-width:1100px; margin: 0 auto; padding-left:16px; padding-right:16px; }
+
+/* cards y elementos */
+.card{
+    background: var(--card-bg);
+    border-radius: 12px;
+    border:1px solid rgba(0,255,204,0.03);
+    padding: 1rem;
+    margin-top: 12px;
+    color: #e6fff8;
+}
+
+/* filtros */
+.filters{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:12px; }
+.filters input[type="search"], .filters select{
+    padding:10px; border-radius:8px; background:#0f0f0f; border:1px solid rgba(0,255,204,0.06); color:#fff;
+}
+
+/* botones estilo neon y ghost */
 .neon-btn{
-  background: var(--neon-cyan);
-  color: #000;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 10px;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 0 14px rgba(0,255,204,0.15);
+    background: transparent;
+    border:1px solid rgba(0,255,204,0.12);
+    color: var(--neon-cyan);
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
 }
-.neon-btn:hover{
-  background: #ffffff;
-  color: var(--neon-cyan);
-}
-
 .btn-ghost{
-  background: transparent;
-  border: 1px solid rgba(0,255,204,0.12);
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: var(--neon-cyan);
+    background: transparent;
+    border: none;
+    color: var(--neon-cyan);
+    padding:6px 10px;
+    cursor: pointer;
 }
 
-/* ======== PROFILE PAGE (USUARIO NORMAL - FONDO BLANCO) ======== */
-.profile-page {
-  background: #fff !important;  /* fondo blanco */
-  color: #000;
-  min-height: 100vh;
-}
+/* header actions (alineado a la derecha) */
+.header-actions{ display:flex; gap:8px; align-items:center; }
 
-.profile-page .dashboard-card {
-  background: linear-gradient(180deg, var(--panel-inner), #0b0b0b);
-  color: #fff;
+/* stats */
+.stats-grid{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
+.stat{ flex:1 1 180px; padding:12px; border-radius:8px; background: linear-gradient(180deg,#0f0f0f,#161616); border:1px solid rgba(0,255,204,0.03); }
+
+/* tabla */
+.table-wrap{ margin-top:18px; overflow-x:auto; }
+.table{ width:100%; border-collapse:collapse; min-width:900px; }
+.table thead th{
+    text-align:left; padding:10px; font-weight:700; color:var(--neon-cyan);
+    border-bottom:1px solid rgba(0,255,204,0.03);
 }
-.profile-page input,
-.profile-page select,
-.profile-page textarea {
-  background: #1e1e1e;
-  color: #fff;
+.table tbody td{ padding:10px; border-bottom:1px solid rgba(255,255,255,0.02); color:#d5f8ee; }
+
+/* paginación */
+.pagination{ display:flex; gap:8px; align-items:center; margin-top:12px; }
+.page-link{ padding:6px 10px; border-radius:6px; border:1px solid rgba(0,255,204,0.06); color:var(--neon-cyan); text-decoration:none; background:transparent; }
+.page-link[aria-current="page"]{ background:var(--neon-cyan); color:#000; }
+
+/* consola grid */
+.consola-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:10px; }
+
+/* small text */
+.small{ font-size:0.9rem; color:#bfbfbf; }
+
+/* responsive adjustments */
+@media (max-width: 768px){
+    :root{ --nav-height: 120px; }
+    .reserved-nav-space{ height: var(--nav-height); }
+    .table{ min-width: 700px; }
+    .gamer-nav .container{ padding-left:12px; padding-right:12px; }
 }

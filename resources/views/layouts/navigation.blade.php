@@ -1,5 +1,7 @@
 <nav x-data="{ open: false }" class="gamer-nav" aria-label="Primary">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+
 
     <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="nav-inner flex items-center justify-between h-16">

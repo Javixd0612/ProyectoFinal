@@ -18,7 +18,7 @@ Route::get('/dashboard', function () {
 // auth routes
 require __DIR__ . '/auth.php';
 
-// PUBLICAS
+// RUTAS PÚBLICAS
 Route::view('/quienes-somos', 'quienes-somos')->name('quienes-somos');
 Route::view('/contacto', 'contacto')->name('contacto');
 Route::post('/contacto', [ContactoController::class, 'enviar'])->name('contacto.enviar');
@@ -39,18 +39,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/reserva/{reserva}', [ReservaController::class, 'destroy'])->name('reserva.destroy');
     Route::post('/reserva/{reserva}/pay', [ReservaController::class, 'pay'])->name('reserva.pay');
 
-    // Admin: protegido manualmente (no requiere middleware 'role')
+    // Panel admin (prefijo + name 'admin.*')
     Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+        // Dashboard admin (vista)
         Route::get('/', function () {
             abort_if(! auth()->check() || ! auth()->user()->isAdmin(), 403);
             return view('admin.dashboard');
         })->name('dashboard');
 
+        // Reservas admin
         Route::get('/reservas', [ReservaController::class, 'adminIndex'])->name('reservas');
         Route::post('/reservas/{reserva}/mark-paid', [ReservaController::class, 'adminMarkPaid'])->name('reservas.mark_paid');
-        Route::post('/consolas/{consola}/update-price', [ReservaController::class, 'adminUpdateConsolaPrice'])->name('consolas.update_price');
         Route::delete('/reservas/{reserva}', [ReservaController::class, 'destroy'])->name('reservas.destroy');
+
+        // Consolas admin: crear, actualizar, eliminar
+        Route::post('/consolas', [ReservaController::class, 'adminStoreConsola'])->name('consolas.store');
+        // ruta para actualizar precio/nombre/descripcion (usada por los formularios)
+        Route::post('/consolas/{consola}/update-price', [ReservaController::class, 'adminUpdateConsolaPrice'])->name('consolas.update_price');
+        Route::delete('/consolas/{consola}', [ReservaController::class, 'adminDestroyConsola'])->name('consolas.destroy');
     });
 
-    
 });
