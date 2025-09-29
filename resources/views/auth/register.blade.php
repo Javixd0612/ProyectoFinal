@@ -12,6 +12,13 @@
         <div class="login-box">
             <h2 class="login-title">TenoJuegos 🎮</h2>
 
+            {{-- ✅ Mensaje de éxito si se envió el correo de verificación --}}
+            @if (session('status'))
+                <div class="alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
+
             {{-- ⚠️ Alerta si hay errores en el formulario --}}
             @if ($errors->any())
                 <div class="alert-error">

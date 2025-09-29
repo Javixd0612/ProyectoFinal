@@ -118,3 +118,11 @@ body {
     text-decoration: underline;
 }
 
+.alert-success {
+    background: #d1e7dd;
+    color: #0f5132;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
