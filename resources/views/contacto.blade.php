@@ -50,4 +50,27 @@
             <a href="https://twitter.com" target="_blank" class="btn-redes tw">X (Twitter)</a>
         </div>
     </div>
+
+    <!-- SECCIÓN CÓMO LLEGAR -->
+    <div class="seccion-ubicacion">
+        <h2 class="subtitulo">📍 Cómo llegar</h2>
+        <p>Cra. 74, Tejelo, Medellín, Doce de Octubre, Medellín, Antioquia</p>
+
+        <!-- Mapa Google -->
+        <div class="mapa">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.841068084493!2d-75.588!3d6.279!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4429e6c6f9f3b9%3A0x9e7b6c2b1a6b7f92!2sCra.%2074%2C%20Tejelo%2C%20Medell%C3%ADn%2C%20Doce%20de%20Octubre%2C%20Antioquia!5e0!3m2!1ses!2sco!4v1690000000000!5m2!1ses!2sco" 
+                width="100%" 
+                height="350" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+
+
 </x-app-layout>
+
+

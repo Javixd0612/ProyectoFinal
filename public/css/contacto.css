@@ -157,3 +157,38 @@
     background: rgba(29, 161, 242, 0.2);
     color: #fff;
 }
+
+
+
+
+
+/* ===== SECCIÓN CÓMO LLEGAR ===== */
+.seccion-ubicacion {
+    max-width: 800px;
+    margin: 60px auto;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 18px;
+    border: 1px solid #00ffcc;
+    box-shadow: 0 0 25px rgba(0, 255, 200, 0.5);
+    text-align: center;
+    color: #fff;
+}
+
+.seccion-ubicacion .subtitulo {
+    font-size: 1.5rem;
+    color: #00ffcc;
+    text-shadow: 0 0 12px rgba(0, 255, 200, 0.8);
+    margin-bottom: 1rem;
+}
+
+.seccion-ubicacion .mapa {
+    margin-top: 1.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 200, 0.4);
+}
+
+
+
