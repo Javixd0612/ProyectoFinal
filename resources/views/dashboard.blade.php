@@ -18,24 +18,52 @@
                 <h2 class="seccion-titulo"> Consolas Disponibles</h2>
                 <div class="tarjetas-grid">
                     <div class="tarjeta">
-                        <img src="{{ asset('images/ps4.png.jpg') }}" alt="PS4">
+                        <img src="{{ asset('images/prueba.jpg') }}" alt="PS4">
                         <div class="tarjeta-info">
-                            <h3>PlayStation 4</h3>
-                            <p>FIFA, God of War, TLOU...</p>
+                            <h3>PlayStation 5</h3>
+                            <p>Hora 5.000</p>
                         </div>
                     </div>
                     <div class="tarjeta">
-                        <img src="{{ asset('images/xbox.jpg') }}" alt="Xbox">
+                        <img src="{{ asset('images/ps4.png.jpg') }}" alt="Xbox">
+                        <div class="tarjeta-info">
+                            <h3>PlayStation 4</h3>
+                            <p>Hora 4.500</p>
+                        </div>
+                    </div>
+                    <div class="tarjeta">
+                        <img src="{{ asset('images/play3.jpg') }}" alt="Switch">
+                        <div class="tarjeta-info">
+                            <h3>PlayStation 3</h3>
+                            <p>Hora 4.000</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {{-- Consolas --}}
+            <section class="seccion">
+                <h2 class="seccion-titulo"> </h2>
+                <div class="tarjetas-grid">
+                    <div class="tarjeta">
+                        <img src="{{ asset('images/xbox.jpg') }}" alt="PS4">
                         <div class="tarjeta-info">
                             <h3>Xbox Series</h3>
-                            <p>Halo, Forza Horizon...</p>
+                            <p>Hora 3.500</p>
+                        </div>
+                    </div>
+                    <div class="tarjeta">
+                        <img src="{{ asset('images/xbox360.jpg') }}" alt="Xbox">
+                        <div class="tarjeta-info">
+                            <h3>Xbox 360</h3>
+                            <p>Hora 3.000</p>
                         </div>
                     </div>
                     <div class="tarjeta">
                         <img src="{{ asset('images/nintendo.jpg') }}" alt="Switch">
                         <div class="tarjeta-info">
                             <h3>Nintendo Switch</h3>
-                            <p>Mario Kart, Smash Bros...</p>
+                            <p>Proximamente...</p>
                         </div>
                     </div>
                 </div>
@@ -81,7 +109,7 @@
 
             {{-- Footer --}}
             <footer class="footer">
-                <p>⏰ Lunes a Domingo 10AM - 10PM | 📍 Calle 123 #45-67, Tu Ciudad</p>
+                <p>⏰ Lunes a Domingo 10AM - 10PM | 📍 Cra. 74, Tejelo, Medellín, Doce de Octubre, Medellín, Antioquia</p>
                 <div class="redes">
                     <a href="#" class="fb"><i class="fab fa-facebook"></i></a>
                     <a href="#" class="ig"><i class="fab fa-instagram"></i></a>

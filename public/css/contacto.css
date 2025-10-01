@@ -5,9 +5,20 @@
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover;          /* llena la pantalla */
+    object-position: center;    /* centra el recorte */
     z-index: -2;
+    background: black;          /* relleno si hay espacios */
 }
+
+/* En pantallas pequeñas mostramos el video completo sin recortarlo */
+@media (max-width: 768px) {
+    .video-fondo {
+        object-fit: contain;    /* se ajusta entero */
+        background: black;      /* bordes negros donde no cubra */
+    }
+}
+
 .overlay {
     position: fixed;
     top: 0;
