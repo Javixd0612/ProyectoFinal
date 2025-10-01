@@ -131,10 +131,34 @@ class ReservaController extends Controller
         return back()->with('success', 'Reserva cancelada.');
     }
 
+    /**
+     * Vista sandbox de pago (simulación estilo "captcha" y factura).
+     * Ruta: GET /reserva/{reserva}/sandbox
+     */
+    public function sandbox(Reserva $reserva)
+    {
+        // seguridad: solo el dueño puede ver su sandbox y solo si está pending
+        if ($reserva->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        if ($reserva->status !== 'pending') {
+            return redirect()->route('reserva.index')->withErrors('Reserva no está en estado pendiente.');
+        }
+
+        // cargamos la consola relacionada
+        $consola = $reserva->consola;
+
+        return view('reserva.sandbox', compact('reserva', 'consola'));
+    }
+
     public function pay(Reserva $reserva)
     {
         if ($reserva->user_id !== Auth::id()) abort(403);
         if ($reserva->status !== 'pending') return back()->withErrors('Reserva no está en estado pendiente.');
+
+        // Si en un futuro guardas method_used puedes leerlo aquí:
+        // $method = request()->input('method_used', null);
 
         $reserva->update(['status' => 'paid']);
 
@@ -202,7 +226,7 @@ class ReservaController extends Controller
             ));
         }
 
-        // --- FALLBACK HTML corregido (nav espacio, z-index, botones alineados, mejor descripción) ---
+        // --- FALLBACK HTML corregido (menu left + profile fixed outside container) ---
         $css1 = asset('css/app_reservas.css');
         $css2 = asset('css/dashboard.css');
         $csrf = csrf_token();
@@ -214,65 +238,46 @@ class ReservaController extends Controller
         $html .= '<link rel="stylesheet" href="'.$css2.'">';
         $html .= '<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>';
 
-        // estilos que corrigen el solapamiento y mejoran alineado de botones y visibilidad de descripciones
+        // estilos inline (ajustes específicos para este fallback)
         $html .= '<style>
             :root{ --nav-height:64px; --neon-cyan:#00ffcc; }
             html,body{height:100%;background:#000 !important;color:#fff;margin:0;padding:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-            /* Reservamos espacio para la nav fija */
             .reserved-nav-space{height:var(--nav-height); width:100%;}
             .gamer-nav { position:fixed; top:0; left:0; right:0; z-index:120; box-shadow:0 6px 18px rgba(0,0,0,0.75); background:rgba(8,8,8,0.9); }
+            /* menu left aligned inside container */
+            .nav-inner { display:flex; align-items:center; justify-content:flex-start; gap: 24px; }
             .container{max-width:1100px;margin:0 auto;padding:1.25rem;}
-            .page-wrapper{padding-top:18px;}
-            .card { background: linear-gradient(180deg, #0e0e0e, #141414); border:1px solid rgba(0,255,204,0.03); border-radius:12px; padding:1rem; margin-top:8px; }
-            .filters { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:12px; }
-            .stats-grid { display:flex; gap:12px; flex-wrap:wrap; margin-top:18px; }
-            .stat{flex:1 1 200px; padding:12px; border-radius:8px; background:linear-gradient(180deg,#0f0f0f,#161616); border:1px solid rgba(0,255,204,0.03);}
-            .table-wrap{margin-top:18px;}
-            .pagination { display:flex; gap:8px; align-items:center; margin-top:12px; }
-            .page-link{ padding:6px 10px; border-radius:6px; border:1px solid rgba(0,255,204,0.06); color:var(--neon-cyan); text-decoration:none; background:transparent; }
-            .page-link[aria-current="page"]{ background:var(--neon-cyan); color:#000; }
-            .consola-section { margin-top:20px; display:block; }
-            .consola-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-top:10px; }
-            .small { font-size:0.95rem; color:#bfbfbf; }
-            /* Mejor visibilidad de descripciones */
-            .consola-grid textarea,
-            .consola-grid input[name="descripcion"],
-            .consola-grid .consola-desc {
-                background: #071010;
-                color: #cfeee6;
-                border: 1px solid rgba(0,255,204,0.08);
-                padding: 8px;
-                border-radius: 8px;
-                font-size: 0.95rem;
-                line-height: 1.2;
-                box-sizing: border-box;
-                width: 100%;
-                resize: vertical;
-            }
-            .consola-grid .consola-card { display:flex; flex-direction:column; gap:8px; height:100%; padding:12px; }
-            .consola-grid .consola-actions { display:flex; gap:8px; align-items:center; margin-top:6px; }
-            .gamer-btn-rect { background:transparent; border:1px solid rgba(0,255,204,0.08); padding:8px 12px; border-radius:8px; color:var(--neon-cyan); text-decoration:none; }
-            .btn-ghost { background:transparent; border:none; color:var(--neon-cyan); cursor:pointer; padding:6px 8px; }
-            @media (max-width:768px) {
-                :root{ --nav-height:120px; }
-                .reserved-nav-space{height:var(--nav-height);}
-            }
+            /* fixed profile OUTSIDE the container (corner) */
+            .fixed-profile { position: fixed; right: 18px; top: 10px; z-index:130; display:flex; align-items:center; gap:0.6rem; }
+            .gamer-menu { display:flex; gap:1.6rem; list-style:none; margin:0; padding:0; }
+            .gamer-link { color:var(--neon-cyan); text-decoration:none; text-transform:uppercase; font-weight:700; border-radius:8px; padding:0.6rem 1rem; background:transparent; }
+            .gamer-link:hover { background: rgba(0,255,204,0.04); color:#fff; transform:translateY(-2px); }
+            .gamer-btn-rect { display:inline-flex; align-items:center; gap:8px; padding:0.45rem 0.85rem; border-radius:10px; background: rgba(255,255,255,0.02); color:var(--neon-cyan); border: 2px solid rgba(0,255,204,0.14); }
+            .dropdown-gamer { position:absolute; right:0; margin-top:.6rem; background: #0b0b0b; border:1px solid rgba(0,255,204,0.08); min-width:190px; border-radius:8px; padding:.3rem; box-shadow: 0 14px 40px rgba(0,0,0,0.85); }
+            .dropdown-item{ display:block; padding:.55rem .85rem; color:var(--neon-cyan); text-decoration:none; border-radius:6px; font-weight:700; }
+            .dropdown-item:hover{ background: rgba(0,255,204,0.08); color:#000; }
+            @media (max-width:768px) { :root{ --nav-height:120px; } .reserved-nav-space{height:var(--nav-height);} .fixed-profile{ display:none; } }
         </style>';
 
         $html .= '</head><body class="page-bg admin-page">';
         $html .= '<div class="reserved-nav-space"></div>';
 
-        // Nav (fijo)
+        // Nav (fijo, menu dentro del container aligned left)
         $html .= '<nav x-data="{ open: false }" class="gamer-nav" aria-label="Primary">';
         $html .= '<div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">';
-        $html .= '<div class="nav-inner flex items-center justify-between h-16">';
-        $html .= '<div class="flex items-center gap-6"><ul class="gamer-menu" role="menubar">';
+        $html .= '<div class="nav-inner flex items-center h-16">';
+        $html .= '<div class="left-sections">';
+        $html .= '<ul class="gamer-menu" role="menubar">';
         $html .= '<li role="none"><a role="menuitem" href="'.route('dashboard').'" class="gamer-link">INICIO</a></li>';
         $html .= '<li role="none"><a role="menuitem" href="'.route('admin.reservas').'" class="gamer-link">GESTIONAR RESERVAS</a></li>';
-        $html .= '</ul></div>';
-        $html .= '<div class="profile-area flex items-center gap-3">';
+        $html .= '</ul>';
+        $html .= '</div>'; // left-sections
+        $html .= '</div></div></nav>';
+
+        // Profile fixed (outside the container)
+        $html .= '<div class="fixed-profile" x-data="{ profileOpen: false }" @click.outside="profileOpen = false">';
         if ($user) {
-            $html .= '<div class="relative" x-data="{ profileOpen: false }" @click.outside="profileOpen = false">';
+            $html .= '<div class="relative">';
             $html .= '<button @click="profileOpen = !profileOpen" class="gamer-btn-rect" aria-haspopup="true" :aria-expanded="profileOpen.toString()">';
             $html .= '<span class="perfil-name">'.htmlspecialchars($user->name).'</span>';
             $html .= '<svg class="chev" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>';
@@ -284,7 +289,7 @@ class ReservaController extends Controller
             $html .= '<button type="submit" class="dropdown-item">Log Out</button>';
             $html .= '</form></div></div>';
         }
-        $html .= '</div></div></div></nav>';
+        $html .= '</div>'; // fixed-profile
 
         // Main container
         $html .= '<div class="container page-wrapper">';
@@ -335,8 +340,8 @@ class ReservaController extends Controller
             $userName = htmlspecialchars($r->user->name ?? '—');
             $userEmail = htmlspecialchars($r->user->email ?? '');
             $consola = htmlspecialchars($r->consola->nombre ?? '—');
-            $start = optional($r->start_at)->format('Y-m-d H:i');
-            $end = optional($r->end_at)->format('Y-m-d H:i');
+            $start = optional($r->start_at)->format('Y-m-d g:i A');
+            $end = optional($r->end_at)->format('Y-m-d g:i A');
             $precio = '$'.number_format($r->precio_total ?? 0, 0, ',', '.');
             $estado = htmlspecialchars(ucfirst($r->status ?? '—'));
 
@@ -349,13 +354,6 @@ class ReservaController extends Controller
             $html .= '<td>'.$estado.'</td>';
 
             $html .= '<td style="min-width:220px;">';
-            if (($r->status ?? '') !== 'paid') {
-                $actionMark = route('admin.reservas.mark_paid', $r);
-                $html .= '<form action="'.$actionMark.'" method="POST" style="display:inline-block; margin-right:8px;">';
-                $html .= '<input type="hidden" name="_token" value="'.$csrf.'">';
-                $html .= '<button class="neon-btn" type="submit" style="padding:6px 10px; font-size:0.85rem;">Marcar pagada</button>';
-                $html .= '</form>';
-            }
             $actionDelete = route('admin.reservas.destroy', $r);
             $html .= '<form action="'.$actionDelete.'" method="POST" style="display:inline-block;">';
             $html .= '<input type="hidden" name="_token" value="'.$csrf.'">';
@@ -398,12 +396,12 @@ class ReservaController extends Controller
         $html .= '<div class="card" style="margin-top:10px;">';
         $html .= '<div class="small">Agrega nuevas consolas, actualiza precio o elimina consolas (no se puede eliminar consola con reservas pagadas).</div>';
 
-        // Form crear consola (simple)
-        $html .= '<form action="'.route('admin.consolas.store').'" method="POST" style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">';
+        // Form crear consola (simple) - ahora descripcion es textarea con altura fija
+        $html .= '<form action="'.route('admin.consolas.store').'" method="POST" style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:flex-start;">';
         $html .= '<input type="hidden" name="_token" value="'.$csrf.'">';
         $html .= '<input name="nombre" placeholder="Nombre consola" style="padding:10px;border-radius:8px;background:#071010;border:1px solid rgba(0,255,204,0.04);color:#cfeee6;min-width:220px;">';
         $html .= '<input name="precio_hora" placeholder="Precio / hora" style="padding:10px;border-radius:8px;background:#071010;border:1px solid rgba(0,255,204,0.04);color:#cfeee6;min-width:140px;">';
-        $html .= '<input name="descripcion" placeholder="Descripción (opcional)" style="padding:10px;border-radius:8px;background:#071010;border:1px solid rgba(0,255,204,0.04);color:#cfeee6;min-width:300px;">';
+        $html .= '<textarea name="descripcion" placeholder="Descripción (opcional)" style="padding:10px;border-radius:8px;background:#071010;border:1px solid rgba(0,255,204,0.04);color:#cfeee6;min-width:300px;height:64px;max-height:120px;resize:vertical;overflow:auto;"></textarea>';
         $html .= '<button class="gamer-btn-rect" type="submit" style="padding:10px 14px;">Agregar consola</button>';
         $html .= '</form>';
 
@@ -411,7 +409,7 @@ class ReservaController extends Controller
 
         foreach ($consolas as $c) {
             $html .= '<div class="consola-card" style="background:linear-gradient(180deg,#0b0b0b,#111);border-radius:8px;border:1px solid rgba(0,255,204,0.03);">';
-            // Update form (nombre, precio, descripcion)
+            // Update form (nombre, precio, descripcion) - textarea con altura fija
             $html .= '<form action="'.route('admin.consolas.update_price', $c).'" method="POST">';
             $html .= '<input type="hidden" name="_token" value="'.$csrf.'">';
             $html .= '<div style="font-weight:700;margin-bottom:8px;color:var(--neon-cyan);">'.htmlspecialchars($c->nombre).'</div>';
@@ -422,7 +420,7 @@ class ReservaController extends Controller
 
             $html .= '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">';
             $html .= '<input name="precio_hora" value="'.htmlspecialchars($c->precio_hora).'" placeholder="Precio / hora" style="padding:8px;border-radius:6px;background:#071010;border:1px solid rgba(0,255,204,0.04);color:#cfeee6;width:140px;">';
-            $html .= '<textarea name="descripcion" rows="2" placeholder="Descripción (visible en reservas)" style="padding:8px;border-radius:6px;background:#071010;border:1px solid rgba(0,255,204,0.04);color:#cfeee6;flex:1;">'.htmlspecialchars($c->descripcion ?? '').'</textarea>';
+            $html .= '<textarea name="descripcion" rows="2" placeholder="Descripción (visible en reservas)" style="padding:8px;border-radius:6px;background:#071010;border:1px solid rgba(0,255,204,0.04);color:#cfeee6;width:100%;height:64px;max-height:120px;resize:vertical;overflow:auto;">'.htmlspecialchars($c->descripcion ?? '').'</textarea>';
             $html .= '</div>';
 
             $html .= '<div class="consola-actions">';
@@ -452,6 +450,9 @@ class ReservaController extends Controller
 
     /**
      * Marca como pagada (admin)
+     *
+     * Nota: dejamos el método disponible pero NO hay ruta pública para que el admin lo marque
+     * (según tu instrucción de que el admin no pueda marcar como pagada).
      */
     public function adminMarkPaid(Reserva $reserva)
     {

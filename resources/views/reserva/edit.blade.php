@@ -28,6 +28,12 @@
             @csrf
             @method('PUT')
 
+            <style>
+                /* evitar movimiento al editar descripciones */
+                textarea { min-height:64px; max-height:120px; resize:vertical; overflow:auto; }
+                .consola-desc { min-height:64px; }
+            </style>
+
             <div style="display:grid; grid-template-columns: 1fr 320px; gap:16px; align-items:start;">
                 <div>
                     <label class="small" for="consola_select">Consola</label>
@@ -43,7 +49,7 @@
 
                     <div class="small" style="margin-top:8px;color:#bfbfbf;">
                         <strong>Descripción:</strong>
-                        <div id="consola_desc" style="margin-top:6px;">
+                        <div id="consola_desc" class="consola-desc" style="margin-top:6px;">
                             {{ optional($consolas->firstWhere('id', $reserva->consola_id))->descripcion ?? '—' }}
                         </div>
                     </div>
@@ -61,8 +67,28 @@
                     </div>
 
                     <div style="margin-top:12px;">
-                        <label class="small" for="hora">Hora</label>
-                        <input id="hora" type="time" name="hora" required class="w-full p-2 border" value="{{ old('hora') ?? $reserva->start_at->format('H:i') }}">
+                        <label class="small" for="hora_ui">Hora</label>
+
+                        <div style="display:flex;gap:6px;margin-top:6px;">
+                            <select id="hora_hour" class="p-2 border" aria-label="Hora (hora)">
+                                @for($h=1;$h<=12;$h++)
+                                    <option value="{{ $h }}">{{ $h }}</option>
+                                @endfor
+                            </select>
+
+                            <select id="hora_min" class="p-2 border" aria-label="Minutos">
+                                @foreach(['00','15','30','45'] as $m)
+                                    <option value="{{ $m }}">{{ $m }}</option>
+                                @endforeach
+                            </select>
+
+                            <select id="hora_ampm" class="p-2 border" aria-label="AM/PM">
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
+
+                        <input type="hidden" name="hora" id="hora_hidden" value="{{ old('hora') ?? $reserva->start_at->format('H:i') }}">
                     </div>
 
                     <div style="margin-top:12px;">
@@ -101,7 +127,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const descDiv = document.getElementById('consola_desc');
     const horasSelect = document.getElementById('horas');
     const fechaEl = document.getElementById('fecha');
-    const horaEl = document.getElementById('hora');
+
+    const hourSel = document.getElementById('hora_hour');
+    const minSel = document.getElementById('hora_min');
+    const ampmSel = document.getElementById('hora_ampm');
+    const horaHidden = document.getElementById('hora_hidden');
 
     function formatNumber(n) { return Number(n).toLocaleString('es-CO'); }
 
@@ -123,18 +153,51 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedDate = new Date(fecha + 'T00:00:00');
         const today = new Date(); const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         if (selectedDate.getTime() === todayDate.getTime()) {
-            const hh = String(today.getHours()).padStart(2,'0');
-            const mm = String(today.getMinutes()).padStart(2,'0');
-            horaEl.min = `${hh}:${mm}`;
-            if (horaEl.value < horaEl.min) horaEl.value = horaEl.min;
-        } else {
-            horaEl.min = null;
+            // no cambiamos selects drásticamente: dejamos lógica ligera
         }
     }
+
+    // sincroniza selects AM/PM al hidden (formato 24h HH:MM)
+    function syncHoraHidden() {
+        let h = parseInt(hourSel.value || '12', 10);
+        const m = (minSel.value || '00');
+        const ampm = (ampmSel.value || 'AM');
+        if (ampm === 'AM') {
+            if (h === 12) h = 0;
+        } else {
+            if (h !== 12) h = h + 12;
+        }
+        const hh = String(h).padStart(2,'0');
+        horaHidden.value = hh + ':' + String(m).padStart(2,'0');
+    }
+
+    // init: si hay hora en horaHidden, parsear y llenar selects
+    (function initHoraFromHidden() {
+        const initial = horaHidden.value;
+        try {
+            const parts = initial.split(':');
+            if (parts.length >= 2) {
+                let hh = parseInt(parts[0],10);
+                const mm = parts[1];
+                let ampm = 'AM';
+                if (hh === 0) { hh = 12; ampm = 'AM'; }
+                else if (hh === 12) { ampm = 'PM'; }
+                else if (hh > 12) { hh = hh - 12; ampm = 'PM'; }
+                hourSel.value = hh;
+                minSel.value = mm;
+                ampmSel.value = ampm;
+            }
+        } catch(e){}
+        syncHoraHidden();
+    })();
 
     consolaSelect.addEventListener('change', actualizarVista);
     horasSelect.addEventListener('change', actualizarVista);
     fechaEl.addEventListener('change', ajustarMinHora);
+
+    [hourSel, minSel, ampmSel].forEach(el => {
+        if (el) el.addEventListener('change', syncHoraHidden);
+    });
 
     // init
     actualizarVista();
